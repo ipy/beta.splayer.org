@@ -1,1 +1,254 @@
-hello
+<!DOCTYPE html>
+<html lang="zh" data-os="win">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+
+  <link rel="dns-prefetch" href="https://github-cloud.s3.amazonaws.com">
+  <link rel="dns-prefetch" href="https://github.com">
+  <link rel="shortcut icon" href="https://splayer.org/favicon.png">
+
+  <title>Splayer Beta</title>
+  <style>
+    html,
+    body {
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    @media (max-width:640px) {
+      html {
+        font-size: 5.333px;
+      }
+    }
+
+    @media (min-width:640px) and (max-width: 1200px) {
+      html {
+        font-size: 0.833vw;
+      }
+    }
+
+    @media(min-width:1200px) {
+      html {
+        font-size: 10px;
+      }
+    }
+
+    @media(min-height:40rem) {
+
+      html,
+      body {
+        height: 100%;
+      }
+    }
+
+    html:lang(en) {
+      padding: 0.5rem;
+    }
+
+    html:lang(en) body {
+      box-shadow: inset 0 0 0 0.5rem #ff7a1c;
+    }
+
+    body {
+      font-family: "PingFang SC", -apple-system, "Helvetica", 'Helvetica Neue', "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+      text-align: center;
+      padding: 25rem 5rem 20rem;
+      color: #bcbcbc;
+    }
+
+    a {
+      color: #bcbcbc;
+    }
+
+    a:hover {
+      color: #676767;
+    }
+
+    a,
+    a:hover {
+      text-decoration: none;
+    }
+
+    .inline-block {
+      display: inline-block;
+    }
+
+    .container {
+      margin: 0 auto;
+    }
+
+    .title-container {
+      position: relative;
+    }
+
+    .title {
+      color: #383838;
+      font-weight: 200;
+      font-size: 6rem;
+      line-height: 9rem;
+    }
+
+    .slogan {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 2rem;
+    }
+
+    .slogan:lang(en) {
+      font-size: 1.6rem;
+      line-height: 2.8rem;
+      top: -5rem;
+    }
+
+    .slogan:lang(zh) {
+      color: #383838;
+      font-weight: 200;
+      font-size: 2rem;
+      line-height: 2.6rem;
+      top: 11rem;
+    }
+
+    .download-button {
+      color: #ff7a1c;
+      font-weight: 300;
+      border: 0.1rem solid #ff7a1c;
+      border-radius: 0.4rem;
+      box-sizing: border-box;
+      margin: 0 auto;
+      padding: 0 2rem;
+      min-width: 30rem;
+      height: 6rem;
+      line-height: 6rem;
+      vertical-align: middle;
+      font-size: 2.4rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .download-button {
+      margin-top: 8rem;
+    }
+
+    .download-button:hover {
+      color: white;
+      background: #ff7a1c;
+    }
+
+    .version {
+      font-size: 1.2rem;
+      margin-bottom: 4rem;
+    }
+
+    .links {
+      font-size: 1.4rem;
+    }
+
+    .link:not(:last-child) {
+      margin-right: 5rem;
+    }
+
+    [class*=" show-on-"],
+    [class^=show-on-] {
+      display: none;
+    }
+
+    html[data-os=win] .show-on-win {
+      display: block;
+    }
+
+    html[data-os=win] a.show-on-win,
+    html[data-os=win] span.show-on-win {
+      display: inline;
+    }
+
+    html[data-os=win] .inline-block.show-on-win {
+      display: inline-block;
+    }
+
+
+    html[data-os=mac] .show-on-mac {
+      display: block;
+    }
+
+    html[data-os=mac] a.show-on-mac,
+    html[data-os=mac] span.show-on-mac {
+      display: inline;
+    }
+
+    html[data-os=mac] .inline-block.show-on-mac {
+      display: inline-block;
+    }
+  </style>
+  <script>
+    var validLang = ['zh', 'en'];
+    var lang = (navigator.language || navigator.userLanguage).substr(0, 2);;
+    var html = document.getElementsByTagName('html')[0];
+    var hideOtherLangStyleTag = document.createElement('style');
+
+    if (validLang.indexOf(lang) === -1) {
+      lang = 'en';
+    }
+
+    html.hidden = true;
+    if ((/Mac OS/i).test(navigator.userAgent)) {
+      html.setAttribute('data-os', 'mac');
+    } else if ((/Windows/i).test(navigator.userAgent)) {
+      html.setAttribute('data-os', 'win');
+    }
+    html.lang = lang;
+    hideOtherLangStyleTag.innerHTML = 'html [lang]:not(:lang(' + lang + ')) { display: none; }';
+    document.head.appendChild(hideOtherLangStyleTag);
+    html.hidden = false;
+  </script>
+</head>
+
+<body>
+  <div class="container">
+    <div class="title-container">
+      <div class="title">
+        <span lang="zh">射手播放器 </span>Splayer
+      </div>
+      <div class="slogan" lang="zh">
+        一个有灵魂的播放器
+      </div>
+      <div class="slogan" lang="en">
+        to be the mediaplayer with a soul
+      </div>
+    </div>
+
+    <a href="https://github.com/chiflix/splayerx/releases/download/0.0.3/SPlayer-0.0.3.dmg" class="download-button inline-block show-on-mac">
+      <span lang="zh">立刻下载</span>
+      <span lang="en">Download for macOS</span>
+    </a>
+    <div class="version show-on-mac" lang="zh">
+      v0.0.3 适用于 macOS 10.10 及以上
+    </div>
+
+    <a href="https://github.com/chiflix/splayerx/releases/download/0.0.3/SPlayer-Setup-0.0.3.exe" class="download-button inline-block show-on-win">
+      <span lang="zh">立刻下载</span>
+      <span lang="en">Download for Windows</span>
+    </a>
+    <div class="version show-on-win" lang="zh">
+      v0.0.3 适用于 Windows 7 及以上
+    </div>
+
+    <div class="links">
+      <a href="https://github.com/chiflix/splayerx/releases/download/0.0.3/SPlayer-Setup-0.0.3.exe" class="link show-on-mac">
+        <span lang="zh">Windows 版本下载</span>
+        <span lang="en">Download for Windows</span>
+      </a>
+      <a href="https://github.com/chiflix/splayerx/releases/download/0.0.3/SPlayer-0.0.3.dmg" class="link show-on-win">
+        <span lang="zh">macOS 版本下载</span>
+        <span lang="en">Download for macOS</span>
+      </a>
+      <a href="https://github.com/chiflix/splayerx" class="link">
+        <span lang="zh">用户协议</span>
+        <span lang="en">EULA</span>
+      </a>
+    </div>
+  </div>
+</body>
+
+</html>
