@@ -15,17 +15,34 @@
     body {
       margin: 0;
       box-sizing: border-box;
+      min-width: 320px;
     }
 
-    @media (max-width:640px) {
+    @media (max-width:750px) {
       html {
-        font-size: 5.333px;
+        font-size: 6.25px;
+      }
+
+      @media(min-height:518px) {
+
+        html,
+        body {
+          height: 100%;
+        }
       }
     }
 
-    @media (min-width:640px) and (max-width: 1200px) {
+    @media (min-width:750px) and (max-width: 1200px) {
       html {
         font-size: 0.833vw;
+      }
+
+      @media(min-height:69vw) {
+
+        html,
+        body {
+          height: 100%;
+        }
       }
     }
 
@@ -33,13 +50,13 @@
       html {
         font-size: 10px;
       }
-    }
 
-    @media(min-height:40rem) {
+      @media(min-height:829px) {
 
-      html,
-      body {
-        height: 100%;
+        html,
+        body {
+          height: 100%;
+        }
       }
     }
 
@@ -52,9 +69,10 @@
     }
 
     body {
-      font-family: "PingFang SC", -apple-system, "Helvetica", 'Helvetica Neue', "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+      font-family: "PingFang SC", -apple-system, 'Helvetica Neue', "Helvetica", "Microsoft YaHei", "WenQuanYi Micro Hei", Arial, sans-serif;
       text-align: center;
       padding: 25rem 5rem 20rem;
+      /* TODO: flex */
       color: #bcbcbc;
     }
 
@@ -79,69 +97,92 @@
       margin: 0 auto;
     }
 
-    .title-container {
-      position: relative;
-    }
-
     .title {
       color: #383838;
       font-weight: 200;
       font-size: 6rem;
-      line-height: 9rem;
+      line-height: 8.4rem;
+    }
+
+    .title:lang(en) {
+      /* roboto */
+      font-size: 8rem;
+      line-height: 9.4rem;
     }
 
     .slogan {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 2rem;
-    }
-
-    .slogan:lang(en) {
-      font-size: 1.6rem;
-      line-height: 2.8rem;
-      top: -5rem;
-    }
-
-    .slogan:lang(zh) {
       color: #383838;
       font-weight: 200;
       font-size: 2rem;
-      line-height: 2.6rem;
-      top: 11rem;
+      line-height: 2.8rem;
+      margin-top: 2rem;
+    }
+
+    .slogan:lang(en) {
+      color: #6e6e6e;
+      font-size: 2rem;
     }
 
     .download-button {
-      color: #ff7a1c;
-      font-weight: 300;
-      border: 0.1rem solid #ff7a1c;
-      border-radius: 0.4rem;
+      color: white;
+      background: #FF7A1C;
+      box-shadow: 0.2rem 0.3rem 0.6rem 0 rgba(0, 0, 0, 0.16);
+      border-radius: 0.5rem;
       box-sizing: border-box;
       margin: 0 auto;
       padding: 0 2rem;
       min-width: 30rem;
       height: 6rem;
       line-height: 6rem;
+      letter-spacing: 0.6rem;
       vertical-align: middle;
       font-size: 2.4rem;
-      margin-bottom: 1.5rem;
+      margin-bottom: 2rem;
+      margin-top: 8rem;
+      transition: .2s ease-in-out transform;
     }
 
-    .download-button {
-      margin-top: 8rem;
+    .download-button::after {
+      opacity: 0;
+      content: ' ';
+      display: block;
+      width: 18rem;
+      height: 2rem;
+      background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0) 80%);
+      margin-left: 50%;
+      transform: translate(-50%, 0);
+      transition: .2s ease-in-out transform, .2s ease-in-out opacity;
     }
 
     .download-button:hover {
       color: white;
-      background: #ff7a1c;
+      transform: translateY(-2rem);
+    }
+
+    .download-button:hover::after {
+      transform: translate(-50%, 1rem);
+      opacity: 1;
+    }
+
+    .download-button :lang(en) {
+      letter-spacing: 0;
     }
 
     .version {
       font-size: 1.2rem;
+      line-height: 1.7rem;
       margin-bottom: 4rem;
     }
 
+    .divider {
+      margin: 0 auto;
+      height: 0.2rem;
+      width: 68rem;
+      background: radial-gradient(#bcbcbc 10%, white 80%);
+    }
+
     .links {
+      margin-top: 2.2rem;
       font-size: 1.4rem;
     }
 
@@ -182,71 +223,105 @@
     }
   </style>
   <script>
+    function switchLang(lang) {
+      var html = document.getElementsByTagName('html')[0];
+      var hideOtherLangStyleTag = document.getElementById('lang-style') || document.createElement('style');
+      html.lang = lang;
+      hideOtherLangStyleTag.innerHTML = 'html [lang]:not(:lang(' + lang + ')) { display: none; }';
+      hideOtherLangStyleTag.id = 'lang-style';
+      document.head.appendChild(hideOtherLangStyleTag);
+    }
+
+    function detectOS() {
+      var html = document.getElementsByTagName('html')[0];
+      if ((/Mac OS/i).test(navigator.userAgent)) {
+        html.setAttribute('data-os', 'mac');
+      } else if ((/Windows/i).test(navigator.userAgent)) {
+        html.setAttribute('data-os', 'win');
+      }
+    }
+
+    function showLicenseAgreement() {
+      alert('EULA');
+    }
+
     var validLang = ['zh', 'en'];
     var lang = (navigator.language || navigator.userLanguage).substr(0, 2);;
-    var html = document.getElementsByTagName('html')[0];
-    var hideOtherLangStyleTag = document.createElement('style');
-
     if (validLang.indexOf(lang) === -1) {
       lang = 'en';
     }
-
-    html.hidden = true;
-    if ((/Mac OS/i).test(navigator.userAgent)) {
-      html.setAttribute('data-os', 'mac');
-    } else if ((/Windows/i).test(navigator.userAgent)) {
-      html.setAttribute('data-os', 'win');
-    }
-    html.lang = lang;
-    hideOtherLangStyleTag.innerHTML = 'html [lang]:not(:lang(' + lang + ')) { display: none; }';
-    document.head.appendChild(hideOtherLangStyleTag);
-    html.hidden = false;
+    switchLang(lang);
+    detectOS();
   </script>
 </head>
 
 <body>
   <div class="container">
-    <div class="title-container">
-      <div class="title">
-        <span lang="zh">射手播放器 </span>Splayer
-      </div>
-      <div class="slogan" lang="zh">
-        一个有灵魂的播放器
-      </div>
-      <div class="slogan" lang="en">
-        to be the mediaplayer with a soul
-      </div>
+    <div class="title" lang="zh">
+      射手播放器 Splayer
+    </div>
+    <div class="title" lang="en">
+      Splayer
     </div>
 
-    <a href="https://github.com/chiflix/splayerx/releases/download/{{version}}/SPlayer-{{version}}.dmg" class="download-button inline-block show-on-mac">
+    <div class="slogan" lang="zh">
+      一个有灵魂的播放器
+    </div>
+    <div class="slogan" lang="en">
+      to be the mediaplayer with a soul
+    </div>
+
+    <a target="_blank" href="https://github.com/chiflix/splayerx/releases/download/{{version}}/SPlayer-{{version}}.dmg"
+      class="download-button inline-block show-on-mac">
       <span lang="zh">立刻下载</span>
       <span lang="en">Download for macOS</span>
     </a>
     <div class="version show-on-mac" lang="zh">
       v{{version}} 适用于 macOS 10.10 及以上
     </div>
+    <div class="version show-on-mac" lang="en">
+      v{{version}} compatible with macOS 10.10 or later
+    </div>
 
-    <a href="https://github.com/chiflix/splayerx/releases/download/{{version}}/SPlayer-Setup-{{version}}.exe" class="download-button inline-block show-on-win">
+    <a target="_blank" href="https://github.com/chiflix/splayerx/releases/download/{{version}}/SPlayer-Setup-{{version}}.exe"
+      class="download-button inline-block show-on-win">
       <span lang="zh">立刻下载</span>
       <span lang="en">Download for Windows</span>
     </a>
     <div class="version show-on-win" lang="zh">
       v{{version}} 适用于 Windows 7 及以上
     </div>
+    <div class="version show-on-win" lang="en">
+      v{{version}} compatible with Windows 7 or later
+    </div>
+
+    <div class="divider"></div>
 
     <div class="links">
-      <a href="https://github.com/chiflix/splayerx/releases/download/{{version}}/SPlayer-Setup-{{version}}.exe" class="link show-on-mac">
+      <a target="_blank" href="https://github.com/chiflix/splayerx/releases/download/{{version}}/SPlayer-Setup-{{version}}.exe"
+        class="link show-on-mac">
         <span lang="zh">Windows 版本下载</span>
         <span lang="en">Download for Windows</span>
       </a>
-      <a href="https://github.com/chiflix/splayerx/releases/download/{{version}}/SPlayer-{{version}}.dmg" class="link show-on-win">
+      <a target="_blank" href="https://github.com/chiflix/splayerx/releases/download/{{version}}/SPlayer-{{version}}.dmg"
+        class="link show-on-win">
         <span lang="zh">macOS 版本下载</span>
         <span lang="en">Download for macOS</span>
       </a>
-      <a href="https://github.com/chiflix/splayerx" class="link">
+      <a href="javascript:showLicenseAgreement()" class="link">
         <span lang="zh">用户协议</span>
-        <span lang="en">EULA</span>
+        <span lang="en">License Agreement</span>
       </a>
+      <a href="javascript:switchLang('zh')" class="link" lang="en">
+        中文
+      </a>
+      <a href="javascript:switchLang('en')" class="link" lang="zh">
+        English
+      </a>
+    </div>
+
+    <div class="eula">
+
     </div>
   </div>
 </body>
