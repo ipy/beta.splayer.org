@@ -16,6 +16,7 @@
       margin: 0;
       box-sizing: border-box;
       min-width: 320px;
+      -webkit-font-smoothing: antialiased;
     }
 
     @media (max-width:750px) {
@@ -95,6 +96,10 @@
 
     .inline-block {
       display: inline-block;
+    }
+
+    .text-right {
+      text-align: right;
     }
 
     .hide {
@@ -198,25 +203,51 @@
       margin-right: 5rem;
     }
 
-    .eula {
+    #eula-switcher {
       display: none;
+      text-indent: -9999rem;
+    }
+    .eula {
+      opacity: 0;
+      transition: .3s ease-in-out opacity;
+      overflow: hidden;
       position: fixed;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 0;
+      height: 0;
+    }
+    #eula-switcher:checked + .eula {
+      opacity: 1;
+      width: 100vw;
+      height: 100vh;
+      overflow: visible;
+    }
+
+    .eula-backdrop {
+      position: absolute;
+      display: block;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+    }
+    .eula-container {
+      position: absolute;
       left: 50%;
       top: 50%;
       transform: translate(-50%, -50%);
       box-sizing: border-box;
       width: 66.7vw;
       padding: 8rem 3.6rem 8rem 8rem;
-      background-image: linear-gradient(-180deg, #F78542 0%, #CC5400 100%);
+      background-image: linear-gradient(0deg, #fff, #c0c8c9, #fff);
       box-shadow: 0 10px 30px 0 rgba(0,0,0,0.20);
       border-radius: 5px;
       text-align: left;
       color: white;
     }
-    #eula-switcher:checked + .eula {
-      display: block;
-    }
-
     .eula-close {
       font-size: 2.8rem;
       line-height: 2.8rem;
@@ -299,14 +330,20 @@
       display: inline-block;
     }
   </style>
+  <style id="lang-style">
+    html [lang]:not(:lang(zh)) { display: none; }
+  </style>
   <script>
     function switchLang(lang) {
       var html = document.getElementsByTagName('html')[0];
-      var hideOtherLangStyleTag = document.getElementById('lang-style') || document.createElement('style');
+      var hideOtherLangStyleTag = document.getElementById('lang-style');
       html.lang = lang;
+      if (!hideOtherLangStyleTag) {
+        hideOtherLangStyleTag = document.createElement('style');
+        hideOtherLangStyleTag.id = 'lang-style';
+        document.head.appendChild(hideOtherLangStyleTag);
+      }
       hideOtherLangStyleTag.innerHTML = 'html [lang]:not(:lang(' + lang + ')) { display: none; }';
-      hideOtherLangStyleTag.id = 'lang-style';
-      document.head.appendChild(hideOtherLangStyleTag);
     }
 
     function detectOS() {
@@ -388,174 +425,334 @@
         </label>
         <input type="checkbox" id="eula-switcher" class="hide">
         <div class="eula">
-          <label for="eula-switcher" class="eula-close">✕</label>
+          <label for="eula-switcher" class="eula-backdrop"></label>
+          <div class="eula-container">
+            <label for="eula-switcher" class="eula-close">✕</label>
 
-          <h1 class="eula-header" lang="zh">用户协议</h1>
-          <div class="eula-content" lang="zh">
-            <h2>1. 对条款的接受</h2>
-            <p>A. 你使用或访问SPlayer网站或任何SPlayer产品、软件、资料源，以及通过SPlayer向你提供的服务（统称为"服务"），即表示你同意接受：
-              <br>（1）本条款和条件（"服务条款"）
-              <br>（2）SPlayer隐私申明
-            </p>
-            <p>B. 尽管我们会试图通知你有关上述服务条款的重大修改，但你应当定期查阅最新的版本。改或更正服务条款和政策，且你同意接受上述修改或更正的约束。本服务条款的任何内容不得视为赋予第三方权利或利益。</p>
+            <h1 class="eula-header" lang="zh">用户协议</h1>
+            <div class="eula-content" lang="zh">
+              <h2>1. 对条款的接受</h2>
+              <p>A. 你使用或访问SPlayer网站或任何SPlayer产品、软件、资料源，以及通过SPlayer向你提供的服务（统称为"服务"），即表示你同意接受：
+                <br>（1）本条款和条件（"服务条款"）
+                <br>（2）SPlayer隐私申明
+              </p>
+              <p>B. 尽管我们会试图通知你有关上述服务条款的重大修改，但你应当定期查阅最新的版本。改或更正服务条款和政策，且你同意接受上述修改或更正的约束。本服务条款的任何内容不得视为赋予第三方权利或利益。</p>
 
-            <h2>2. 服务</h2>
-            <p>A.
-              本服务条款适用于本服务的所有用户，包括向服务提供内容的用户。"内容"包括你可以查看、访问及提供给服务的文本、软件、脚本、图形、照片、声音、音乐、视频、视听组合、互动功能和其他材料。服务包括SPlayer所有产品，包括但不限于所有通过SPlayer网站提供的产品、软体和服务。</p>
-            <p>B.
-              服务可能包含非SPlayer所有或控制的第三方内容。SPlayer不控制且不对任何第三方的内容、隐私申明或行为承担任何责任。另外，SPlayer不会也不能审查或编辑任何第三方的内容。使用本服务，你已明确免除SPlayer就你使用任何第三方内容所而产生的任何及全部责任。</p>
-            <p>C. 因此，当你离开本服务时，我们鼓励你意识到已经离开，并且阅读你要访问的其他网站的条款和条件及隐私申明。</p>
+              <h2>2. 服务</h2>
+              <p>A.
+                本服务条款适用于本服务的所有用户，包括向服务提供内容的用户。"内容"包括你可以查看、访问及提供给服务的文本、软件、脚本、图形、照片、声音、音乐、视频、视听组合、互动功能和其他材料。服务包括SPlayer所有产品，包括但不限于所有通过SPlayer网站提供的产品、软体和服务。</p>
+              <p>B.
+                服务可能包含非SPlayer所有或控制的第三方内容。SPlayer不控制且不对任何第三方的内容、隐私申明或行为承担任何责任。另外，SPlayer不会也不能审查或编辑任何第三方的内容。使用本服务，你已明确免除SPlayer就你使用任何第三方内容所而产生的任何及全部责任。</p>
+              <p>C. 因此，当你离开本服务时，我们鼓励你意识到已经离开，并且阅读你要访问的其他网站的条款和条件及隐私申明。</p>
 
-            <h2>3. SPlayer帐户</h2>
-            <p>A. 为了访问服务的某些功能，你可能需要创建一个帐户</p>
-            (例：用户反馈)。未经允许，你不能使用其他人的帐户。创建帐户时，你必须提供准确和完整的资讯。你须对你的帐户行为完全负责，且必须保护好自己的帐户密码。若有任何违反安全或未经授权使用帐户的情况，你必须立即通知SPlayer。
-            <p>B. 尽管SPlayer对任何因你帐户未经授权的使用而引起的损失不承担责任，但你可能承担因上述未经授权的使用而导致SPlayer或其他方的损失。</p>
+              <h2>3. SPlayer帐户</h2>
+              <p>A. 为了访问服务的某些功能，你可能需要创建一个帐户</p>
+              <p>(例：用户反馈)。未经允许，你不能使用其他人的帐户。创建帐户时，你必须提供准确和完整的资讯。你须对你的帐户行为完全负责，且必须保护好自己的帐户密码。若有任何违反安全或未经授权使用帐户的情况，你必须立即通知SPlayer。</p>
+              <p>B. 尽管SPlayer对任何因你帐户未经授权的使用而引起的损失不承担责任，但你可能承担因上述未经授权的使用而导致SPlayer或其他方的损失。</p>
 
-            <h2>4. 服务的一般使用——许可权和限制</h2>
-            <p>A. SPlayer在此授权你按照本服务条款访问和使用服务，但前提是：</p>
-            <p>B. 未经SPlayer事先书面授权，你同意不得将服务或内容的任何部分发布到任何其他媒体，除非SPlayer同意通过服务提供的功能开放了该发布方式。</p>
-            <p>C. 你同意不对服务的任何部分作改变或修改。</p>
-            <p>D. 你同意除了服务本身的视频播放器或其他SPlayer明确授权的方法，不通过其他技术或方法访问内容。</p>
-            <p>E. 未经SPlayer事先书面同意，你同意不得将内容用于下列商业目的：
-              <br>- 对连接到服务的链接，进行销售；
-              <br>- 对服务或内容上的广告、赞助或促销，进行销售；
-              <br>- 关于包含了通过服务发送内容的博客或网站，且该博客或网站发布广告的，则对其任何网页上的广告、赞助或促销，进行销售，除非同一页面上含有其他不是由SPlayer提供的材料且有足够的价值成为上述销售的基础。
-            </p>
-            <p>F. 禁止的商业使用不包括：
-              <br>- 上传原创内容到SPlayer，或者管理原创的内容；
-            </p>
-            <p>G.
-              你同意不使用或运行任何自动化系统（包括但不限于，"机器人"、"蜘蛛"或"离线阅读器"）通过以下方式访问服务，即该方式在相同的时间内，同人类通过普通线上网页流览器能合理提出的请求数量相比，向SPlayer服务器发送更多的请求资讯。尽管有前述规定，SPlayer允许公共搜索引擎的操作者为创建可供公共搜索索引的必要而使用蜘蛛从网站复制材料，但不得对这些材料作缓存或备份。SPlayer保留全部或在个别情况下取消上述例外的权利。你同意不得从服务中收集任何个人身份资讯，包括帐户名称，也不得将服务提供的交流平台（例如评论、电子邮件）用于任何商业招揽目的。你同意不得为商业之目的，就用户的内容招揽服务的任何用户。</p>
-            <p>H. 在使用服务过程中，你应当遵守相关法律。</p>
-            <p>I. SPlayer保留随时终止本服务任何方面的权利。</p>
+              <h2>4. 服务的一般使用——许可权和限制</h2>
+              <p>A. SPlayer在此授权你按照本服务条款访问和使用服务，但前提是：</p>
+              <p>B. 未经SPlayer事先书面授权，你同意不得将服务或内容的任何部分发布到任何其他媒体，除非SPlayer同意通过服务提供的功能开放了该发布方式。</p>
+              <p>C. 你同意不对服务的任何部分作改变或修改。</p>
+              <p>D. 你同意除了服务本身的视频播放器或其他SPlayer明确授权的方法，不通过其他技术或方法访问内容。</p>
+              <p>E. 未经SPlayer事先书面同意，你同意不得将内容用于下列商业目的：
+                <br>- 对连接到服务的链接，进行销售；
+                <br>- 对服务或内容上的广告、赞助或促销，进行销售；
+                <br>-
+                关于包含了通过服务发送内容的博客或网站，且该博客或网站发布广告的，则对其任何网页上的广告、赞助或促销，进行销售，除非同一页面上含有其他不是由SPlayer提供的材料且有足够的价值成为上述销售的基础。
+              </p>
+              <p>F. 禁止的商业使用不包括：
+                <br>- 上传原创内容到SPlayer，或者管理原创的内容；
+              </p>
+              <p>G.
+                你同意不使用或运行任何自动化系统（包括但不限于，"机器人"、"蜘蛛"或"离线阅读器"）通过以下方式访问服务，即该方式在相同的时间内，同人类通过普通线上网页流览器能合理提出的请求数量相比，向SPlayer服务器发送更多的请求资讯。尽管有前述规定，SPlayer允许公共搜索引擎的操作者为创建可供公共搜索索引的必要而使用蜘蛛从网站复制材料，但不得对这些材料作缓存或备份。SPlayer保留全部或在个别情况下取消上述例外的权利。你同意不得从服务中收集任何个人身份资讯，包括帐户名称，也不得将服务提供的交流平台（例如评论、电子邮件）用于任何商业招揽目的。你同意不得为商业之目的，就用户的内容招揽服务的任何用户。</p>
+              <p>H. 在使用服务过程中，你应当遵守相关法律。</p>
+              <p>I. SPlayer保留随时终止本服务任何方面的权利。</p>
 
-            <h2>5. 对内容的使用</h2>
-            <p>除了上述的一般限制，下列限制和条件特别适用于你对内容的使用。</p>
-            <p>在符合法律规定的著作权和其他知识产权的前提下，服务中的内容以及商标、服务标记和标识（"商标"）由SPlayer所有或已许可给SPlayer使用。</p>
-            <p>内容是按现状提供给你。根据服务提供的功能和本服务条款的许可，你仅可以访问内容以作为个人参考和使用。除非SPlayer在服务上对内容设置"下载"或类似链接，你不得下载任何内容。你不得复制、重制、提供网上访问或电子方式传送、出版、改编、发布、传送、广播、显示、出售、许可或以任何其他方式，未经SPlayer或内容许可人的事先书面许可，将内容用于其他目的。对服务和内容未明确授予的权利，SPlayer及其许可人予以保留。</p>
-            <p>你同意不得规避、禁用或以其他方式干扰服务的安全功能，阻止或限制使用或复制内容的功能，及能够限制服务或内容使用的功能。</p>
-            <p>你了解，在使用本服务时，你将可能接触到各种来源的内容，但是SPlayer不负责上述内容的准确性、可使用性、安全性及相关内容的知识产权。你进一步了解并同意，你有可能接触不准确、攻击性、不雅或不愉快的内容，并且你同意放弃，并在此放弃你享有或可能享有的，针对SPlayer的任何法律下或衡平原则下的权利或救济。针对你对服务使用的相关事宜，你同意在法律允许的最大限度内赔偿SPlayer、其所有者、操作者、关联人、许可人和被许可人并保证其不受损害。</p>
+              <h2>5. 对内容的使用</h2>
+              <p>除了上述的一般限制，下列限制和条件特别适用于你对内容的使用。</p>
+              <p>在符合法律规定的著作权和其他知识产权的前提下，服务中的内容以及商标、服务标记和标识（"商标"）由SPlayer所有或已许可给SPlayer使用。</p>
+              <p>内容是按现状提供给你。根据服务提供的功能和本服务条款的许可，你仅可以访问内容以作为个人参考和使用。除非SPlayer在服务上对内容设置"下载"或类似链接，你不得下载任何内容。你不得复制、重制、提供网上访问或电子方式传送、出版、改编、发布、传送、广播、显示、出售、许可或以任何其他方式，未经SPlayer或内容许可人的事先书面许可，将内容用于其他目的。对服务和内容未明确授予的权利，SPlayer及其许可人予以保留。</p>
+              <p>你同意不得规避、禁用或以其他方式干扰服务的安全功能，阻止或限制使用或复制内容的功能，及能够限制服务或内容使用的功能。</p>
+              <p>你了解，在使用本服务时，你将可能接触到各种来源的内容，但是SPlayer不负责上述内容的准确性、可使用性、安全性及相关内容的知识产权。你进一步了解并同意，你有可能接触不准确、攻击性、不雅或不愉快的内容，并且你同意放弃，并在此放弃你享有或可能享有的，针对SPlayer的任何法律下或衡平原则下的权利或救济。针对你对服务使用的相关事宜，你同意在法律允许的最大限度内赔偿SPlayer、其所有者、操作者、关联人、许可人和被许可人并保证其不受损害。</p>
 
-            <h2>6. 你的内容和行为</h2>
-            <p>作为SPlayer用户，你可以向服务提交内容，包括文字描述文件和用户评论等。但你明白，SPlayer不保证对你提交的资讯保密。</p>
-            <p>你应当对你的内容以及在服务上提交和发布内容所产生的后果完全承担责任。你确认、陈述和保证，你拥有或得到发布你提交内容必需的许可、权利、同意和允许；且根据本服务条款，为在服务上发布该内容，你许可给SPlayer与该内容相关的所有专利、商标、商业秘密、版权或其他专有权利。</p>
-            <p>为了明确起见，你保留内容的所有权。然而，一旦将内容提交到SPlayer，你在此授予SPlayer一项在全球范围内、非排他性的、免许可费的、可分许可且可转让的许可，以便根据服务和SPlayer的业务（包括其承继方和关联方的业务）使用、复制、发行、准备衍生作品、展示、出版、改编、提供线上版本或电子传输及运行内容，包括但不限于以任何媒体格式，在任何媒体管道推广和重新发布服务（及其衍生作品）的全部或部分。你亦在此授予服务的每个用户一项非排他性的许可，以通过服务访问你的内容，根据服务功能和本服务条款，使用、复制、发行、展示、出版、提供线上版本或电子传输及运行内容。上述你授予的有关你提交给服务的内容的许可，将自你从服务上移除或删除视频后，在商业合理的期间内终止。你了解并同意，对于你已移除或删除的视频，SPlayer可以在服务器上保留副本，但不得展示、发行或运行。对于你提交的用户评论中的上述许可，将永久有效且不可撤销。</p>
-            <p>你进一步同意，你提交至服务的内容不得含有任何第三方的版权材料或第三方专有权利的材料，除非你已获得材料合法所有人的许可或者你有权发布材料并授予SPlayer相应的所有许可。</p>
-            <p>SPlayer不认可任何用户或许可人提交到服务的内容，或者表达的任何意见、提议或建议，同时SPlayer明确声明免除承担有关内容的任何责任。SPlayer不允许服务上有任何侵犯版权和知识产权的行为，如果SPlayer在得到有关内容侵犯他人的知识产权的适当通知后，SPlayer将删除所有内容。SPlayer保留未事先通知而删除内容的权利。</p>
+              <h2>6. 你的内容和行为</h2>
+              <p>作为SPlayer用户，你可以向服务提交内容，包括文字描述文件和用户评论等。但你明白，SPlayer不保证对你提交的资讯保密。</p>
+              <p>你应当对你的内容以及在服务上提交和发布内容所产生的后果完全承担责任。你确认、陈述和保证，你拥有或得到发布你提交内容必需的许可、权利、同意和允许；且根据本服务条款，为在服务上发布该内容，你许可给SPlayer与该内容相关的所有专利、商标、商业秘密、版权或其他专有权利。</p>
+              <p>为了明确起见，你保留内容的所有权。然而，一旦将内容提交到SPlayer，你在此授予SPlayer一项在全球范围内、非排他性的、免许可费的、可分许可且可转让的许可，以便根据服务和SPlayer的业务（包括其承继方和关联方的业务）使用、复制、发行、准备衍生作品、展示、出版、改编、提供线上版本或电子传输及运行内容，包括但不限于以任何媒体格式，在任何媒体管道推广和重新发布服务（及其衍生作品）的全部或部分。你亦在此授予服务的每个用户一项非排他性的许可，以通过服务访问你的内容，根据服务功能和本服务条款，使用、复制、发行、展示、出版、提供线上版本或电子传输及运行内容。上述你授予的有关你提交给服务的内容的许可，将自你从服务上移除或删除视频后，在商业合理的期间内终止。你了解并同意，对于你已移除或删除的视频，SPlayer可以在服务器上保留副本，但不得展示、发行或运行。对于你提交的用户评论中的上述许可，将永久有效且不可撤销。</p>
+              <p>你进一步同意，你提交至服务的内容不得含有任何第三方的版权材料或第三方专有权利的材料，除非你已获得材料合法所有人的许可或者你有权发布材料并授予SPlayer相应的所有许可。</p>
+              <p>SPlayer不认可任何用户或许可人提交到服务的内容，或者表达的任何意见、提议或建议，同时SPlayer明确声明免除承担有关内容的任何责任。SPlayer不允许服务上有任何侵犯版权和知识产权的行为，如果SPlayer在得到有关内容侵犯他人的知识产权的适当通知后，SPlayer将删除所有内容。SPlayer保留未事先通知而删除内容的权利。</p>
 
-            <h2>7. 帐户终止政策</h2>
-            <p>如果在适当的情况下用户被确定为重复侵权人，SPlayer将终止该用户访问服务。</p>
-            <p>SPlayer有权决定内容是否因为侵犯版权以外的原因而违反服务条款，例如，但不限于色情、淫秽或超长材料。对于违反服务条款上传该材料，SPlayer可以随时且无须事先通知，自行决定删除该内容和/或终止用户帐户。</p>
+              <h2>7. 帐户终止政策</h2>
+              <p>如果在适当的情况下用户被确定为重复侵权人，SPlayer将终止该用户访问服务。</p>
+              <p>SPlayer有权决定内容是否因为侵犯版权以外的原因而违反服务条款，例如，但不限于色情、淫秽或超长材料。对于违反服务条款上传该材料，SPlayer可以随时且无须事先通知，自行决定删除该内容和/或终止用户帐户。</p>
 
-            <h2>8. 著作权政策</h2>
-            <p>SPlayer的某些服务提供翻译功能，具体翻译的资料和内容由你提供。你必须保证仅对已获得的合法材料和内容进行翻译，且仅可以在学术上使用或是为听觉障碍者提供福利所用。SPlayer不主动制作和生产违反法律法规的材料和内容，也禁止这种行为。</p>
-            <p>关于被检举侵害第三人著作权的任何行为，如果任何用户被判定为侵权累犯，SPlayer将尝试终止该用户对产品的使用权。此处所载之侵权累犯为已被通知其有超过两次以上之侵权活动。</p>
+              <h2>8. 著作权政策</h2>
+              <p>SPlayer的某些服务提供翻译功能，具体翻译的资料和内容由你提供。你必须保证仅对已获得的合法材料和内容进行翻译，且仅可以在学术上使用或是为听觉障碍者提供福利所用。SPlayer不主动制作和生产违反法律法规的材料和内容，也禁止这种行为。</p>
+              <p>关于被检举侵害第三人著作权的任何行为，如果任何用户被判定为侵权累犯，SPlayer将尝试终止该用户对产品的使用权。此处所载之侵权累犯为已被通知其有超过两次以上之侵权活动。</p>
 
-            <h2>9. 免责声明</h2>
-            <p>你已同意，使用本服务由你自行承担风险。在法律允许的最大限度内，SPlayer全部免予承担所有明示或默示的关于服务和你使用服务的保证。在法律允许的最大限度内，SPlayer免予承担所有有关本网站或其链接的网站内容的准确性或完整性的保证、条件、条款和陈述，并且不承担下列责任：（I）错误或内容失实；（II）你访问或使用本服务引起任何性质的人身伤害或人身损害；（III）未经授权访问或使用有安全措施的服务器和/或储存在服务器上的任何个人资讯和/或财务资讯；（IV）我们服务的中断或停止传输；（IV）第三方可能通过我们的服务传输的任何软体错误、病毒、木马或类似性质的程式；和/或（V）任何内容中的错误或疏忽，或由于使用发布、邮件传送、传输或通过服务的其他方式获得的内容，导致的任何形式的损失或损害。SPlayer不保证、认同、担保或承担由任何第三方通过服务或任何超链接服务或横幅功能或其他广告发布或提供的产品或服务的责任，并且对于你与第三方提供商就商品或服务的交易，SPlayer不作为一方当事人，也不负责任何监控责任。就如同任何通过媒体或在其他情况下购买产品或服务，你应当尽到自己最佳的判断和合理的谨慎。</p>
+              <h2>9. 免责声明</h2>
+              <p>你已同意，使用本服务由你自行承担风险。在法律允许的最大限度内，SPlayer全部免予承担所有明示或默示的关于服务和你使用服务的保证。在法律允许的最大限度内，SPlayer免予承担所有有关本网站或其链接的网站内容的准确性或完整性的保证、条件、条款和陈述，并且不承担下列责任：（I）错误或内容失实；（II）你访问或使用本服务引起任何性质的人身伤害或人身损害；（III）未经授权访问或使用有安全措施的服务器和/或储存在服务器上的任何个人资讯和/或财务资讯；（IV）我们服务的中断或停止传输；（IV）第三方可能通过我们的服务传输的任何软体错误、病毒、木马或类似性质的程式；和/或（V）任何内容中的错误或疏忽，或由于使用发布、邮件传送、传输或通过服务的其他方式获得的内容，导致的任何形式的损失或损害。SPlayer不保证、认同、担保或承担由任何第三方通过服务或任何超链接服务或横幅功能或其他广告发布或提供的产品或服务的责任，并且对于你与第三方提供商就商品或服务的交易，SPlayer不作为一方当事人，也不负责任何监控责任。就如同任何通过媒体或在其他情况下购买产品或服务，你应当尽到自己最佳的判断和合理的谨慎。</p>
 
-            <h2>10. 责任限制</h2>
-            <p>在法律允许的最大限度内，在任何情况下，无论根据保证、合同、侵权或其他法律理论，且无论公司是否被告知此类损害的可能性，SPlayer均不向你承担由下列原因引起的任何直接的、间接的、偶然的、特殊的、惩罚性的、损失或支出或衍生性的损害：（I）错误或内容失实；（II）你访问或使用本服务引起任何性质的人身伤害或人身损害；（III）未经授权来访问或使用有安全措施的服务器和/或储存在服务器上的任何个人资讯和/或财务资讯；（IV）我们服务的中断或停止传输；（IV）第三方可能通过我们的服务传输的任何软体错误、病毒、木马或类似性质的程式；和/或（V）任何内容中的错误或疏忽，或由于使用发布、邮件传送、传输或通过服务的其他方式获得的内容，导致的任何形式的损失或损害。</p>
-            <p>你明确了解，SPlayer不负责任何内容或诽谤、冒犯或任何第三方的不合法行为。上述情况对你可能存在的伤害或损害风险完全由你自己承担。</p>
+              <h2>10. 责任限制</h2>
+              <p>在法律允许的最大限度内，在任何情况下，无论根据保证、合同、侵权或其他法律理论，且无论公司是否被告知此类损害的可能性，SPlayer均不向你承担由下列原因引起的任何直接的、间接的、偶然的、特殊的、惩罚性的、损失或支出或衍生性的损害：（I）错误或内容失实；（II）你访问或使用本服务引起任何性质的人身伤害或人身损害；（III）未经授权来访问或使用有安全措施的服务器和/或储存在服务器上的任何个人资讯和/或财务资讯；（IV）我们服务的中断或停止传输；（IV）第三方可能通过我们的服务传输的任何软体错误、病毒、木马或类似性质的程式；和/或（V）任何内容中的错误或疏忽，或由于使用发布、邮件传送、传输或通过服务的其他方式获得的内容，导致的任何形式的损失或损害。</p>
+              <p>你明确了解，SPlayer不负责任何内容或诽谤、冒犯或任何第三方的不合法行为。上述情况对你可能存在的伤害或损害风险完全由你自己承担。</p>
 
-            <h2>11. 接受服务条款的行为能力</h2>
-            <p>你确定你为18周岁以上的用户，或者有自主能力的未成年人，或已获得父母或监护人的同意，且完全能够有能力签署本服务条款中规定的条款、条件、义务、确认、陈述和保证，并遵守和履行本服务条款。在任何情况下，你确认你为13周岁以上的用户，因为本服务不向13周岁以下的儿童提供。如果你未满13周岁，请不要使用本服务。适合你的服务还有很多。请与你父母讨论哪些网站适合你流览。</p>
-            <p>我们在提供服务的同时提供服务条款，从而使你了解哪些条款适用于你。你确认，我们已经给予你合理的机会来阅读上述服务条款且你已同意该条款。</p>
+              <h2>11. 接受服务条款的行为能力</h2>
+              <p>你确定你为18周岁以上的用户，或者有自主能力的未成年人，或已获得父母或监护人的同意，且完全能够有能力签署本服务条款中规定的条款、条件、义务、确认、陈述和保证，并遵守和履行本服务条款。在任何情况下，你确认你为13周岁以上的用户，因为本服务不向13周岁以下的儿童提供。如果你未满13周岁，请不要使用本服务。适合你的服务还有很多。请与你父母讨论哪些网站适合你流览。</p>
+              <p>我们在提供服务的同时提供服务条款，从而使你了解哪些条款适用于你。你确认，我们已经给予你合理的机会来阅读上述服务条款且你已同意该条款。</p>
 
-            <h2>12. 转让</h2>
-            <p>你不得转让或转移本服务条款及其所授予的权利和许可，但SPlayer可对其转让，且不受限制。</p>
+              <h2>12. 转让</h2>
+              <p>你不得转让或转移本服务条款及其所授予的权利和许可，但SPlayer可对其转让，且不受限制。</p>
 
-            <h2>13. 一般条款</h2>
-            <p>本服务条款及隐私申明和SPlayer发布的其他关于服务的法律通知，应当构成你与SPlayer之间就服务约定的完整协定。如果其中某一条款不可执行，其不影响其他条款。对任何服务条款的放弃，不得视为将来或继续放弃该条款或其他条款。SPlayer未主张本服务条款中的权利或规定的，不构成对该权利或规定的放弃。你和SPlayer同意，由本服务引起的或与之相关的诉讼理由必须在该诉讼理由产生后一（1）年内提出。否则，该诉讼理由将被永久排除。</p>
+              <h2>13. 一般条款</h2>
+              <p>本服务条款及隐私申明和SPlayer发布的其他关于服务的法律通知，应当构成你与SPlayer之间就服务约定的完整协定。如果其中某一条款不可执行，其不影响其他条款。对任何服务条款的放弃，不得视为将来或继续放弃该条款或其他条款。SPlayer未主张本服务条款中的权利或规定的，不构成对该权利或规定的放弃。你和SPlayer同意，由本服务引起的或与之相关的诉讼理由必须在该诉讼理由产生后一（1）年内提出。否则，该诉讼理由将被永久排除。</p>
 
-            <h2>14. 隐私申明</h2>
-            <p>SPlayer 非常重视你的隐私。因此我们制定了涵盖如何收集、使用、披露、转让以及存储你的信息的隐私政策。除了本隐私政策以外，我们还针对某些会要求使用你的个人信息的功能，在我们的产品中嵌入了数据和隐私信息。</p>
-            <p>任何时候你与 SPlayer 或 SPlayer 关联公司联系，都可能会要求你提供个人信息。SPlayer 及其关联公司可共享这些个人信息，并按本隐私政策使用这些信息。SPlayer</p>
-            <p>及其关联公司还可将这些信息与其他信息结合起来，用于提供和改进我们的产品、服务、内容和广告宣传。你不是一定要提供我们要求的个人信息，但在许多情况下，如果你选择不提供，我们将无法为你提供我们的产品或服务，也无法回应你遇到的任何问题。</p>
-            <p>SPlayer 可随时对其用户协议加以更新。如果我们对用户协议作出重大变更，我们将在公司网站上发布经更新的用户协议。</p>
+              <h2>14. 隐私申明</h2>
+              <p>SPlayer
+                非常重视你的隐私。因此我们制定了涵盖如何收集、使用、披露、转让以及存储你的信息的隐私政策。除了本隐私政策以外，我们还针对某些会要求使用你的个人信息的功能，在我们的产品中嵌入了数据和隐私信息。</p>
+              <p>任何时候你与 SPlayer 或 SPlayer 关联公司联系，都可能会要求你提供个人信息。SPlayer 及其关联公司可共享这些个人信息，并按本隐私政策使用这些信息。SPlayer</p>
+              <p>及其关联公司还可将这些信息与其他信息结合起来，用于提供和改进我们的产品、服务、内容和广告宣传。你不是一定要提供我们要求的个人信息，但在许多情况下，如果你选择不提供，我们将无法为你提供我们的产品或服务，也无法回应你遇到的任何问题。</p>
+              <p>SPlayer 可随时对其用户协议加以更新。如果我们对用户协议作出重大变更，我们将在公司网站上发布经更新的用户协议。</p>
 
-            <p>日期：2018年11月15日</p>
-          </div>
+              <p class="text-right">日期：2018年11月15日</p>
+            </div>
 
-          <h1 class="eula-header" lang="en">License Agreement</h1>
-          <div class="eula-content" lang="en">
-            <h2>1. Your Acceptance</h2>
-            <p>A. By using or visiting the SPlayer website or any SPlayer products, software, data feeds, and services provided to you on, from, or through the SPlayer (collectively the "Service") you signify your agreement to 
-            <br>(1) these terms and conditions (the "Terms of Service")
-            <br>(2) SPlayer's Privacy Policy</p>
-            <p>If you do not agree to any of these terms, the SPlayer Privacy Policy, or the Community Guidelines, please do not use the Service. The Service is provided by SPlayer, which, along with its products and services, is referred to as “SPlayer” in these Terms of Service.</p>
-            <p>B. Although we may attempt to notify you when major changes are made to these Terms of Service, you should periodically review the most up-to-date version. SPlayer may, in its sole discretion, modify or revise these Terms of Service and policies at any time, and you agree to be bound by such modifications or revisions. Nothing in these Terms of Service shall be deemed to confer any third-party rights or benefits.</p>
-            
-            <h2>2. Service</h2>
-            <p>A. These Terms of Service apply to all users of the Service, including users who are also contributors of Content on the Service. “Content” includes the text, software, scripts, graphics, photos, sounds, music, videos, audiovisual combinations, interactive features and other materials you may view on, access through, or contribute to the Service. The Service includes all aspects of SPlayer, including but not limited to all products, software and services offered via the SPlayer products.</p>
-            <p>B. The Service may contain links to third party contents that are not owned or controlled by SPlayer. SPlayer has no control over, and assumes no responsibility for, the content, privacy policies, or practices of any third party services. In addition, SPlayer will not and cannot censor or edit the content of any third-party site. By using the Service, you expressly relieve SPlayer from any and all liability arising from your use of any third-party contents.</p>
-            <p>c. Accordingly, we encourage you to be aware when you leave the Service and to read the terms and conditions and privacy policy of each other website that you visit.</p>
-            
-            <h2>3. SPlayer Accounts</h2>
-            <p>A. In order to access some features of the Service, you might need to create an account. (e.g. Feedback Site). You may never use another's account without permission. When creating your account, you must provide accurate and complete information. You are solely responsible for the activity that occurs on your account, and you must keep your account password secure. You must notify SPlayer immediately of any breach of security or unauthorized use of your account.</p>
-            <p>B. Although SPlayer will not be liable for your losses caused by any unauthorized use of your account, you may be liable for the losses of SPlayer or others due to such unauthorized use.</p>
-            
-            <h2>4. General Use of the Service—Permissions and Restrictions</h2>
-            <p>A. SPlayer hereby grants you permission to access and use the Service as set forth in these Terms of Service, provided that:</p>
-            <p>B. You agree not to distribute in any medium any part of the Service or the Content without SPlayer's prior written authorization, unless SPlayer makes available the means for such distribution through functionality offered by the Service.</p>
-            <p>C. You agree not to alter or modify any part of the Service.</p>
-            <p>D. You agree not to access Content through any technology or means other than the video Player, or other explicitly authorized means SPlayer may designate.</p>
-            <p>E. You agree not to use the Service for any of the following commercial uses unless you obtain SPlayer's prior written approval:
-            <br>- the sale of access to the Service;
-            <br>- the sale of advertising, sponsorships, or promotions placed on or within the Service or Content; or
-            <br>- the sale of advertising, sponsorships, or promotions on any page of an ad-enabled blog or website containing Content delivered via the Service, unless other material not obtained from SPlayer appears on the same page and is of sufficient value to be the basis for such sales.</p>
-            <p>F. Prohibited commercial uses do not include:
-            <br>- uploading original contents to SPlayer, or maintaining your original contents.</p>
-            <p>G. You agree not to use or launch any automated system, including without limitation, "robots," "spiders," or "offline readers," that accesses the Service in a manner that sends more request messages to the SPlayer servers in a given period of time than a human can reasonably produce in the same period by using a conventional on-line web browser. Notwithstanding the foregoing, SPlayer grants the operators of public search engines permission to use spiders to copy materials from the site for the sole purpose of and solely to the extent necessary for creating publicly available searchable indices of the materials, but not caches or archives of such materials. SPlayer reserves the right to revoke these exceptions either generally or in specific cases. You agree not to collect or harvest any personally identifiable information, including account names, from the Service, nor to use the communication systems provided by the Service (e.g., comments, email) for any commercial solicitation purposes. You agree not to solicit, for commercial purposes, any users of the Service with respect to their Content.</p>
-            <p>H. In your use of the Service, you will comply with all applicable laws.</p>
-            <p>I. SPlayer reserves the right to discontinue any aspect of the Service at any time.</p>
-            
-            <h2>5. Your Use of Content</h2>
-            <p>In addition to the general restrictions above, the following restrictions and conditions apply specifically to your use of Content.</p>
-            <p>The Content on the Service, and the trademarks, service marks and logos ("Marks") on the Service, are owned by or licensed to SPlayer, subject to copyright and other intellectual property rights under the law.</p>
-            <p>Content is provided to you AS IS. You may access Content for your information and personal use solely as intended through the provided functionality of the Service and as permitted under these Terms of Service. You shall not download any Content unless you see a “download” or similar link displayed by SPlayer on the Service for that Content. You shall not copy, reproduce, make available online or electronically transmit, publish, adapt, distribute, transmit, broadcast, display, sell, license, or otherwise exploit any Content for any other purposes without the prior written consent of SPlayer or the respective licensors of the Content. SPlayer and its licensors reserve all rights not expressly granted in and to the Service and the Content.</p>
-            <p>You agree not to circumvent, disable or otherwise interfere with security-related features of the Service or features that prevent or restrict use or copying of any Content or enforce limitations on use of the Service or the Content therein.</p>
-            <p>You understand that when using the Service, you will be exposed to Content from a variety of sources, and that SPlayer is not responsible for the accuracy, usefulness, safety, or intellectual property rights of or relating to such Content. You further understand and acknowledge that you may be exposed to Content that is inaccurate, offensive, indecent, or objectionable, and you agree to waive, and hereby do waive, any legal or equitable rights or remedies you have or may have against SPlayer with respect thereto, and, to the extent permitted by applicable law, agree to indemnify and hold harmless SPlayer, its owners, operators, affiliates, licensors, and licensees to the fullest extent allowed by law regarding all matters related to your use of the Service.</p>
-            
-            <h2>6. Your Content and Conduct</h2>
-            <p>As a SPlayer user you may submit Content to the Service, including translations and user comments. You understand that SPlayer does not guarantee any confidentiality with respect to any Content you submit.</p>
-            <p>You shall be solely responsible for your own Content and the consequences of submitting and publishing your Content on the Service. You affirm, represent, and warrant that you own or have the necessary licenses, rights, consents, and permissions to publish Content you submit; and you license to SPlayer all patent, trademark, trade secret, copyright or other proprietary rights in and to such Content for publication on the Service pursuant to these Terms of Service.</p>
-            <p>For clarity, you retain all of your ownership rights in your Content. However, by submitting Content to SPlayer, you hereby grant SPlayer a worldwide, non-exclusive, royalty-free, sublicenseable and transferable license to use, reproduce, distribute, prepare derivative works of, display, publish, adapt, make available online or electronically transmit, and perform the Content in connection with the Service and SPlayer's (and its successors' and affiliates') business, including without limitation for promoting and redistributing part or all of the Service (and derivative works thereof) in any media formats and through any media channels. You also hereby grant each user of the Service a non-exclusive license to access your Content through the Service, and to use, reproduce, distribute, display, publish, make available online or electronically transmit, and perform such Content as permitted through the functionality of the Service and under these Terms of Service. The above licenses granted by you in Content you submit to the Service terminate within a commercially reasonable time after you remove or delete your videos from the Service. You understand and agree, however, that SPlayer may retain, but not display, distribute, or perform, server copies of your videos that have been removed or deleted. The above licenses granted by you in user comments you submit are perpetual and irrevocable.</p>
-            <p>You further agree that Content you submit to the Service will not contain third party copyrighted material, or material that is subject to other third party proprietary rights, unless you have permission from the rightful owner of the material or you are otherwise legally entitled to post the material and to grant SPlayer all of the license rights granted herein.</p>
-            <p>SPlayer does not endorse any Content submitted to the Service by any user or other licensor, or any opinion, recommendation, or advice expressed therein, and SPlayer expressly disclaims any and all liability in connection with Content. SPlayer does not permit copyright infringing activities and infringement of intellectual property rights on the Service, and SPlayer will remove all Content if properly notified that such Content infringes on another's intellectual property rights. SPlayer reserves the right to remove Content without prior notice.</p>
-            
-            <h2>7. Account Termination Policy</h2>
-            <p>SPlayer will terminate a user's access to the Service if, under appropriate circumstances, the user is determined to be a repeat infringer.</p>
-            <p>SPlayer reserves the right to decide whether Content violates these Terms of Service for reasons other than copyright infringement, such as, but not limited to, pornography, obscenity, or excessive length. SPlayer may at any time, without prior notice and in its sole discretion, remove such Content and/or terminate a user's account for submitting such material in violation of these Terms of Service.</p>
-            
-            <h2>8. Intellectual Property Policy</h2>
-            <p>SPlayer operates a clear copyright policy in relation to any Content alleged to infringe the copyright of a third party. </p>
-            <p>As part of SPlayer's services, you can use the translation function. You should provide the materials that you want to translate, and should be responsive for the legitimacy of using those materials. All the materials that you provide and translate should not infringe any copyright policy. The purpose of your translation behavior can only be for academic uses or for providing convenience to viewers who cannot hear the audio. SPlayer will not produce or publish any illegal materials, which is also prohibited by SPlayer.</p>
-            <p>As part of SPlayer's copyright policy, SPlayer will try to terminate user access to the service if a user has been determined to be a repeat infringer. A repeat infringer is a user who has been notified of infringing activity more than twice.</p>
-            
-            <h2>9. Warranty Disclaimer</h2>
-            <p>YOU AGREE THAT YOUR USE OF THE SERVICES SHALL BE AT YOUR SOLE RISK. TO THE FULLEST EXTENT PERMITTED BY LAW, SPlayer, ITS OFFICERS, DIRECTORS, EMPLOYEES, AND AGENTS (IF EXITS) EXCLUDE ALL WARRANTIES, EXPRESS OR IMPLIED, IN CONNECTION WITH THE SERVICES AND YOUR USE THEREOF. TO THE FULLEST EXTENT PERMITTED BY LAW, SPlayer EXCLUDES ALL WARRANTIES, CONDITIONS, TERMS OR REPRESENTATIONS ABOUT THE ACCURACY OR COMPLETENESS OF THIS SITE'S CONTENT OR THE CONTENT OF ANY SITES LINKED TO THIS SITE AND ASSUMES NO LIABILITY OR RESPONSIBILITY FOR ANY (I) ERRORS, MISTAKES, OR INACCURACIES OF CONTENT, (II) PERSONAL INJURY OR PROPERTY DAMAGE, OF ANY NATURE WHATSOEVER, RESULTING FROM YOUR ACCESS TO AND USE OF OUR SERVICES, (III) ANY UNAUTHORIZED ACCESS TO OR USE OF OUR SECURE SERVERS AND/OR ANY AND ALL PERSONAL INFORMATION AND/OR FINANCIAL INFORMATION STORED THEREIN, (IV) ANY INTERRUPTION OR CESSATION OF TRANSMISSION TO OR FROM OUR SERVICES, (IV) ANY BUGS, VIRUSES, TROJAN HORSES, OR THE LIKE WHICH MAY BE TRANSMITTED TO OR THROUGH OUR SERVICES BY ANY THIRD PARTY, AND/OR (V) ANY ERRORS OR OMISSIONS IN ANY CONTENT OR FOR ANY LOSS OR DAMAGE OF ANY KIND INCURRED AS A RESULT OF THE USE OF ANY CONTENT POSTED, EMAILED, TRANSMITTED, OR OTHERWISE MADE AVAILABLE VIA THE SERVICES. SPlayer DOES NOT WARRANT, ENDORSE, GUARANTEE, OR ASSUME RESPONSIBILITY FOR ANY PRODUCT OR SERVICE ADVERTISED OR OFFERED BY A THIRD PARTY THROUGH THE SERVICES OR ANY HYPERLINKED SERVICES OR FEATURED IN ANY BANNER OR OTHER ADVERTISING, AND SPlayer WILL NOT BE A PARTY TO OR IN ANY WAY BE RESPONSIBLE FOR MONITORING ANY TRANSACTION BETWEEN YOU AND THIRD-PARTY PROVIDERS OF PRODUCTS OR SERVICES. AS WITH THE PURCHASE OF A PRODUCT OR SERVICE THROUGH ANY MEDIUM OR IN ANY ENVIRONMENT, YOU SHOULD USE YOUR BEST JUDGMENT AND EXERCISE CAUTION WHERE APPROPRIATE.</p>
-            
-            <h2>10. Limitation of Liability</h2>
-            <p>TO THE FULLEST EXTENT PERMITTED BY LAW, IN NO EVENT SHALL SPlayer BE LIABLE TO YOU FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, PUNITIVE, LOSSES OR EXPENSES OR CONSEQUENTIAL DAMAGES WHATSOEVER RESULTING FROM ANY (I) ERRORS, MISTAKES, OR INACCURACIES OF CONTENT, (II) PERSONAL INJURY OR PROPERTY DAMAGE, OF ANY NATURE WHATSOEVER, RESULTING FROM YOUR ACCESS TO AND USE OF OUR SERVICES, (III) ANY UNAUTHORIZED ACCESS TO OR USE OF OUR SECURE SERVERS AND/OR ANY AND ALL PERSONAL INFORMATION AND/OR FINANCIAL INFORMATION STORED THEREIN, (IV) ANY INTERRUPTION OR CESSATION OF TRANSMISSION TO OR FROM OUR SERVICES, (IV) ANY BUGS, VIRUSES, TROJAN HORSES, OR THE LIKE, WHICH MAY BE TRANSMITTED TO OR THROUGH OUR SERVICES BY ANY THIRD PARTY, AND/OR (V) ANY ERRORS OR OMISSIONS IN ANY CONTENT OR FOR ANY LOSS OR DAMAGE OF ANY KIND INCURRED AS A RESULT OF YOUR USE OF ANY CONTENT POSTED, EMAILED, TRANSMITTED, OR OTHERWISE MADE AVAILABLE VIA THE SERVICES, WHETHER BASED ON WARRANTY, CONTRACT, TORT, OR ANY OTHER LEGAL THEORY, AND WHETHER OR NOT THE COMPANY IS ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.</p>
-            <p>YOU SPECIFICALLY ACKNOWLEDGE THAT SPlayer SHALL NOT BE LIABLE FOR CONTENT OR THE DEFAMATORY, OFFENSIVE, OR ILLEGAL CONDUCT OF ANY THIRD PARTY AND THAT THE RISK OF HARM OR DAMAGE FROM THE FOREGOING RESTS ENTIRELY WITH YOU.</p>
-            
-            <h2>11. Ability to Accept Terms of Service</h2>
-            <p>You affirm that you are either more than 18 years of age, or an emancipated minor, or possess legal parental or guardian consent, and are fully able and competent to enter into the terms, conditions, obligations, affirmations, representations, and warranties set forth in these Terms of Service, and to abide by and comply with these Terms of Service. In any case, you affirm that you are over the age of 13, as the Service is not intended for children under 13. If you are under 13 years of age, then please do not use the Service. There are lots of other great products for you. Talk to your parents about what sites are appropriate for you.</p>
-            <p>We provide these Terms of Service with our Service so that you know what terms apply to your use. You acknowledge that we have given you a reasonable opportunity to review these Terms of Service and that you have agreed to them.</p>
-            
-            <h2>12. Assignment</h2>
-            <p>These Terms of Service, and any rights and licenses granted hereunder, may not be transferred or assigned by you, but may be assigned by SPlayer without restriction.</p>
-            
-            <h2>13. General</h2>
-            <p>These Terms of Service, together with the Privacy Notice and any other legal notices published by SPlayer on the Service, shall constitute the entire agreement between you and SPlayer concerning the Service. If it turns out that a particular term is not enforceable, this will not affect any other terms. No waiver of any term of this Terms of Service shall be deemed a further or continuing waiver of such term or any other term, and SPlayer's failure to assert any right or provision under these Terms of Service shall not constitute a waiver of such right or provision. YOU AND SPlayer AGREE THAT ANY CAUSE OF ACTION ARISING OUT OF OR RELATED TO THE SERVICES MUST COMMENCE WITHIN ONE (1) YEAR AFTER THE CAUSE OF ACTION ACCRUES. OTHERWISE, SUCH CAUSE OF ACTION IS PERMANENTLY BARRED.</p>
-            
-            <h2>14. Privacy Policy</h2>
-            <p>Your privacy is important to SPlayer so we’ve developed a Privacy Policy that covers how we collect, use, disclose, transfer, and store your personal information. In addition to this Privacy Policy, we provide data and privacy information imbedded in our products for certain features that ask to use your personal information.</p>
-            <p>You may be asked to provide your personal information anytime you are in contact with SPlayer or an SPlayer affiliated company. SPlayer and its affiliates may share this personal information with each other and use it consistent with this Privacy Policy. They may also combine it with other information to provide and improve our products, services, content, and advertising. You are not required to provide the personal information that we have requested, but, if you chose not to do so, in many cases we will not be able to provide you with our products or services or respond to any queries you may have.</p>
-            <p>SPlayer may update its End User License Agreement from time to time. When we change the End User License Agreement in a material way, a notice will be posted on our website along with the updated End User License Agreement.</p>
-            
-            <p>Dated: Nov 15, 2018</p>
+            <h1 class="eula-header" lang="en">License Agreement</h1>
+            <div class="eula-content" lang="en">
+              <h2>1. Your Acceptance</h2>
+              <p>A. By using or visiting the SPlayer website or any SPlayer products, software, data feeds, and
+                services provided to you on, from, or through the SPlayer (collectively the "Service") you signify your
+                agreement to
+                <br>(1) these terms and conditions (the "Terms of Service")
+                <br>(2) SPlayer's Privacy Policy</p>
+              <p>If you do not agree to any of these terms, the SPlayer Privacy Policy, or the Community Guidelines,
+                please do not use the Service. The Service is provided by SPlayer, which, along with its products and
+                services, is referred to as “SPlayer” in these Terms of Service.</p>
+              <p>B. Although we may attempt to notify you when major changes are made to these Terms of Service, you
+                should periodically review the most up-to-date version. SPlayer may, in its sole discretion, modify or
+                revise these Terms of Service and policies at any time, and you agree to be bound by such modifications
+                or revisions. Nothing in these Terms of Service shall be deemed to confer any third-party rights or
+                benefits.</p>
+
+              <h2>2. Service</h2>
+              <p>A. These Terms of Service apply to all users of the Service, including users who are also contributors
+                of Content on the Service. “Content” includes the text, software, scripts, graphics, photos, sounds,
+                music, videos, audiovisual combinations, interactive features and other materials you may view on,
+                access through, or contribute to the Service. The Service includes all aspects of SPlayer, including
+                but not limited to all products, software and services offered via the SPlayer products.</p>
+              <p>B. The Service may contain links to third party contents that are not owned or controlled by SPlayer.
+                SPlayer has no control over, and assumes no responsibility for, the content, privacy policies, or
+                practices of any third party services. In addition, SPlayer will not and cannot censor or edit the
+                content of any third-party site. By using the Service, you expressly relieve SPlayer from any and all
+                liability arising from your use of any third-party contents.</p>
+              <p>c. Accordingly, we encourage you to be aware when you leave the Service and to read the terms and
+                conditions and privacy policy of each other website that you visit.</p>
+
+              <h2>3. SPlayer Accounts</h2>
+              <p>A. In order to access some features of the Service, you might need to create an account. (e.g.
+                Feedback Site). You may never use another's account without permission. When creating your account, you
+                must provide accurate and complete information. You are solely responsible for the activity that occurs
+                on your account, and you must keep your account password secure. You must notify SPlayer immediately of
+                any breach of security or unauthorized use of your account.</p>
+              <p>B. Although SPlayer will not be liable for your losses caused by any unauthorized use of your account,
+                you may be liable for the losses of SPlayer or others due to such unauthorized use.</p>
+
+              <h2>4. General Use of the Service—Permissions and Restrictions</h2>
+              <p>A. SPlayer hereby grants you permission to access and use the Service as set forth in these Terms of
+                Service, provided that:</p>
+              <p>B. You agree not to distribute in any medium any part of the Service or the Content without SPlayer's
+                prior written authorization, unless SPlayer makes available the means for such distribution through
+                functionality offered by the Service.</p>
+              <p>C. You agree not to alter or modify any part of the Service.</p>
+              <p>D. You agree not to access Content through any technology or means other than the video Player, or
+                other explicitly authorized means SPlayer may designate.</p>
+              <p>E. You agree not to use the Service for any of the following commercial uses unless you obtain
+                SPlayer's prior written approval:
+                <br>- the sale of access to the Service;
+                <br>- the sale of advertising, sponsorships, or promotions placed on or within the Service or Content;
+                or
+                <br>- the sale of advertising, sponsorships, or promotions on any page of an ad-enabled blog or website
+                containing Content delivered via the Service, unless other material not obtained from SPlayer appears
+                on the same page and is of sufficient value to be the basis for such sales.</p>
+              <p>F. Prohibited commercial uses do not include:
+                <br>- uploading original contents to SPlayer, or maintaining your original contents.</p>
+              <p>G. You agree not to use or launch any automated system, including without limitation, "robots,"
+                "spiders," or "offline readers," that accesses the Service in a manner that sends more request messages
+                to the SPlayer servers in a given period of time than a human can reasonably produce in the same period
+                by using a conventional on-line web browser. Notwithstanding the foregoing, SPlayer grants the
+                operators of public search engines permission to use spiders to copy materials from the site for the
+                sole purpose of and solely to the extent necessary for creating publicly available searchable indices
+                of the materials, but not caches or archives of such materials. SPlayer reserves the right to revoke
+                these exceptions either generally or in specific cases. You agree not to collect or harvest any
+                personally identifiable information, including account names, from the Service, nor to use the
+                communication systems provided by the Service (e.g., comments, email) for any commercial solicitation
+                purposes. You agree not to solicit, for commercial purposes, any users of the Service with respect to
+                their Content.</p>
+              <p>H. In your use of the Service, you will comply with all applicable laws.</p>
+              <p>I. SPlayer reserves the right to discontinue any aspect of the Service at any time.</p>
+
+              <h2>5. Your Use of Content</h2>
+              <p>In addition to the general restrictions above, the following restrictions and conditions apply
+                specifically to your use of Content.</p>
+              <p>The Content on the Service, and the trademarks, service marks and logos ("Marks") on the Service, are
+                owned by or licensed to SPlayer, subject to copyright and other intellectual property rights under the
+                law.</p>
+              <p>Content is provided to you AS IS. You may access Content for your information and personal use solely
+                as intended through the provided functionality of the Service and as permitted under these Terms of
+                Service. You shall not download any Content unless you see a “download” or similar link displayed by
+                SPlayer on the Service for that Content. You shall not copy, reproduce, make available online or
+                electronically transmit, publish, adapt, distribute, transmit, broadcast, display, sell, license, or
+                otherwise exploit any Content for any other purposes without the prior written consent of SPlayer or
+                the respective licensors of the Content. SPlayer and its licensors reserve all rights not expressly
+                granted in and to the Service and the Content.</p>
+              <p>You agree not to circumvent, disable or otherwise interfere with security-related features of the
+                Service or features that prevent or restrict use or copying of any Content or enforce limitations on
+                use of the Service or the Content therein.</p>
+              <p>You understand that when using the Service, you will be exposed to Content from a variety of sources,
+                and that SPlayer is not responsible for the accuracy, usefulness, safety, or intellectual property
+                rights of or relating to such Content. You further understand and acknowledge that you may be exposed
+                to Content that is inaccurate, offensive, indecent, or objectionable, and you agree to waive, and
+                hereby do waive, any legal or equitable rights or remedies you have or may have against SPlayer with
+                respect thereto, and, to the extent permitted by applicable law, agree to indemnify and hold harmless
+                SPlayer, its owners, operators, affiliates, licensors, and licensees to the fullest extent allowed by
+                law regarding all matters related to your use of the Service.</p>
+
+              <h2>6. Your Content and Conduct</h2>
+              <p>As a SPlayer user you may submit Content to the Service, including translations and user comments. You
+                understand that SPlayer does not guarantee any confidentiality with respect to any Content you submit.</p>
+              <p>You shall be solely responsible for your own Content and the consequences of submitting and publishing
+                your Content on the Service. You affirm, represent, and warrant that you own or have the necessary
+                licenses, rights, consents, and permissions to publish Content you submit; and you license to SPlayer
+                all patent, trademark, trade secret, copyright or other proprietary rights in and to such Content for
+                publication on the Service pursuant to these Terms of Service.</p>
+              <p>For clarity, you retain all of your ownership rights in your Content. However, by submitting Content
+                to SPlayer, you hereby grant SPlayer a worldwide, non-exclusive, royalty-free, sublicenseable and
+                transferable license to use, reproduce, distribute, prepare derivative works of, display, publish,
+                adapt, make available online or electronically transmit, and perform the Content in connection with the
+                Service and SPlayer's (and its successors' and affiliates') business, including without limitation for
+                promoting and redistributing part or all of the Service (and derivative works thereof) in any media
+                formats and through any media channels. You also hereby grant each user of the Service a non-exclusive
+                license to access your Content through the Service, and to use, reproduce, distribute, display,
+                publish, make available online or electronically transmit, and perform such Content as permitted
+                through the functionality of the Service and under these Terms of Service. The above licenses granted
+                by you in Content you submit to the Service terminate within a commercially reasonable time after you
+                remove or delete your videos from the Service. You understand and agree, however, that SPlayer may
+                retain, but not display, distribute, or perform, server copies of your videos that have been removed or
+                deleted. The above licenses granted by you in user comments you submit are perpetual and irrevocable.</p>
+              <p>You further agree that Content you submit to the Service will not contain third party copyrighted
+                material, or material that is subject to other third party proprietary rights, unless you have
+                permission from the rightful owner of the material or you are otherwise legally entitled to post the
+                material and to grant SPlayer all of the license rights granted herein.</p>
+              <p>SPlayer does not endorse any Content submitted to the Service by any user or other licensor, or any
+                opinion, recommendation, or advice expressed therein, and SPlayer expressly disclaims any and all
+                liability in connection with Content. SPlayer does not permit copyright infringing activities and
+                infringement of intellectual property rights on the Service, and SPlayer will remove all Content if
+                properly notified that such Content infringes on another's intellectual property rights. SPlayer
+                reserves the right to remove Content without prior notice.</p>
+
+              <h2>7. Account Termination Policy</h2>
+              <p>SPlayer will terminate a user's access to the Service if, under appropriate circumstances, the user is
+                determined to be a repeat infringer.</p>
+              <p>SPlayer reserves the right to decide whether Content violates these Terms of Service for reasons other
+                than copyright infringement, such as, but not limited to, pornography, obscenity, or excessive length.
+                SPlayer may at any time, without prior notice and in its sole discretion, remove such Content and/or
+                terminate a user's account for submitting such material in violation of these Terms of Service.</p>
+
+              <h2>8. Intellectual Property Policy</h2>
+              <p>SPlayer operates a clear copyright policy in relation to any Content alleged to infringe the copyright
+                of a third party. </p>
+              <p>As part of SPlayer's services, you can use the translation function. You should provide the materials
+                that you want to translate, and should be responsive for the legitimacy of using those materials. All
+                the materials that you provide and translate should not infringe any copyright policy. The purpose of
+                your translation behavior can only be for academic uses or for providing convenience to viewers who
+                cannot hear the audio. SPlayer will not produce or publish any illegal materials, which is also
+                prohibited by SPlayer.</p>
+              <p>As part of SPlayer's copyright policy, SPlayer will try to terminate user access to the service if a
+                user has been determined to be a repeat infringer. A repeat infringer is a user who has been notified
+                of infringing activity more than twice.</p>
+
+              <h2>9. Warranty Disclaimer</h2>
+              <p>YOU AGREE THAT YOUR USE OF THE SERVICES SHALL BE AT YOUR SOLE RISK. TO THE FULLEST EXTENT PERMITTED BY
+                LAW, SPlayer, ITS OFFICERS, DIRECTORS, EMPLOYEES, AND AGENTS (IF EXITS) EXCLUDE ALL WARRANTIES, EXPRESS
+                OR IMPLIED, IN CONNECTION WITH THE SERVICES AND YOUR USE THEREOF. TO THE FULLEST EXTENT PERMITTED BY
+                LAW, SPlayer EXCLUDES ALL WARRANTIES, CONDITIONS, TERMS OR REPRESENTATIONS ABOUT THE ACCURACY OR
+                COMPLETENESS OF THIS SITE'S CONTENT OR THE CONTENT OF ANY SITES LINKED TO THIS SITE AND ASSUMES NO
+                LIABILITY OR RESPONSIBILITY FOR ANY (I) ERRORS, MISTAKES, OR INACCURACIES OF CONTENT, (II) PERSONAL
+                INJURY OR PROPERTY DAMAGE, OF ANY NATURE WHATSOEVER, RESULTING FROM YOUR ACCESS TO AND USE OF OUR
+                SERVICES, (III) ANY UNAUTHORIZED ACCESS TO OR USE OF OUR SECURE SERVERS AND/OR ANY AND ALL PERSONAL
+                INFORMATION AND/OR FINANCIAL INFORMATION STORED THEREIN, (IV) ANY INTERRUPTION OR CESSATION OF
+                TRANSMISSION TO OR FROM OUR SERVICES, (IV) ANY BUGS, VIRUSES, TROJAN HORSES, OR THE LIKE WHICH MAY BE
+                TRANSMITTED TO OR THROUGH OUR SERVICES BY ANY THIRD PARTY, AND/OR (V) ANY ERRORS OR OMISSIONS IN ANY
+                CONTENT OR FOR ANY LOSS OR DAMAGE OF ANY KIND INCURRED AS A RESULT OF THE USE OF ANY CONTENT POSTED,
+                EMAILED, TRANSMITTED, OR OTHERWISE MADE AVAILABLE VIA THE SERVICES. SPlayer DOES NOT WARRANT, ENDORSE,
+                GUARANTEE, OR ASSUME RESPONSIBILITY FOR ANY PRODUCT OR SERVICE ADVERTISED OR OFFERED BY A THIRD PARTY
+                THROUGH THE SERVICES OR ANY HYPERLINKED SERVICES OR FEATURED IN ANY BANNER OR OTHER ADVERTISING, AND
+                SPlayer WILL NOT BE A PARTY TO OR IN ANY WAY BE RESPONSIBLE FOR MONITORING ANY TRANSACTION BETWEEN YOU
+                AND THIRD-PARTY PROVIDERS OF PRODUCTS OR SERVICES. AS WITH THE PURCHASE OF A PRODUCT OR SERVICE THROUGH
+                ANY MEDIUM OR IN ANY ENVIRONMENT, YOU SHOULD USE YOUR BEST JUDGMENT AND EXERCISE CAUTION WHERE
+                APPROPRIATE.</p>
+
+              <h2>10. Limitation of Liability</h2>
+              <p>TO THE FULLEST EXTENT PERMITTED BY LAW, IN NO EVENT SHALL SPlayer BE LIABLE TO YOU FOR ANY DIRECT,
+                INDIRECT, INCIDENTAL, SPECIAL, PUNITIVE, LOSSES OR EXPENSES OR CONSEQUENTIAL DAMAGES WHATSOEVER
+                RESULTING FROM ANY (I) ERRORS, MISTAKES, OR INACCURACIES OF CONTENT, (II) PERSONAL INJURY OR PROPERTY
+                DAMAGE, OF ANY NATURE WHATSOEVER, RESULTING FROM YOUR ACCESS TO AND USE OF OUR SERVICES, (III) ANY
+                UNAUTHORIZED ACCESS TO OR USE OF OUR SECURE SERVERS AND/OR ANY AND ALL PERSONAL INFORMATION AND/OR
+                FINANCIAL INFORMATION STORED THEREIN, (IV) ANY INTERRUPTION OR CESSATION OF TRANSMISSION TO OR FROM OUR
+                SERVICES, (IV) ANY BUGS, VIRUSES, TROJAN HORSES, OR THE LIKE, WHICH MAY BE TRANSMITTED TO OR THROUGH
+                OUR SERVICES BY ANY THIRD PARTY, AND/OR (V) ANY ERRORS OR OMISSIONS IN ANY CONTENT OR FOR ANY LOSS OR
+                DAMAGE OF ANY KIND INCURRED AS A RESULT OF YOUR USE OF ANY CONTENT POSTED, EMAILED, TRANSMITTED, OR
+                OTHERWISE MADE AVAILABLE VIA THE SERVICES, WHETHER BASED ON WARRANTY, CONTRACT, TORT, OR ANY OTHER
+                LEGAL THEORY, AND WHETHER OR NOT THE COMPANY IS ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.</p>
+              <p>YOU SPECIFICALLY ACKNOWLEDGE THAT SPlayer SHALL NOT BE LIABLE FOR CONTENT OR THE DEFAMATORY,
+                OFFENSIVE, OR ILLEGAL CONDUCT OF ANY THIRD PARTY AND THAT THE RISK OF HARM OR DAMAGE FROM THE FOREGOING
+                RESTS ENTIRELY WITH YOU.</p>
+
+              <h2>11. Ability to Accept Terms of Service</h2>
+              <p>You affirm that you are either more than 18 years of age, or an emancipated minor, or possess legal
+                parental or guardian consent, and are fully able and competent to enter into the terms, conditions,
+                obligations, affirmations, representations, and warranties set forth in these Terms of Service, and to
+                abide by and comply with these Terms of Service. In any case, you affirm that you are over the age of
+                13, as the Service is not intended for children under 13. If you are under 13 years of age, then please
+                do not use the Service. There are lots of other great products for you. Talk to your parents about what
+                sites are appropriate for you.</p>
+              <p>We provide these Terms of Service with our Service so that you know what terms apply to your use. You
+                acknowledge that we have given you a reasonable opportunity to review these Terms of Service and that
+                you have agreed to them.</p>
+
+              <h2>12. Assignment</h2>
+              <p>These Terms of Service, and any rights and licenses granted hereunder, may not be transferred or
+                assigned by you, but may be assigned by SPlayer without restriction.</p>
+
+              <h2>13. General</h2>
+              <p>These Terms of Service, together with the Privacy Notice and any other legal notices published by
+                SPlayer on the Service, shall constitute the entire agreement between you and SPlayer concerning the
+                Service. If it turns out that a particular term is not enforceable, this will not affect any other
+                terms. No waiver of any term of this Terms of Service shall be deemed a further or continuing waiver of
+                such term or any other term, and SPlayer's failure to assert any right or provision under these Terms
+                of Service shall not constitute a waiver of such right or provision. YOU AND SPlayer AGREE THAT ANY
+                CAUSE OF ACTION ARISING OUT OF OR RELATED TO THE SERVICES MUST COMMENCE WITHIN ONE (1) YEAR AFTER THE
+                CAUSE OF ACTION ACCRUES. OTHERWISE, SUCH CAUSE OF ACTION IS PERMANENTLY BARRED.</p>
+
+              <h2>14. Privacy Policy</h2>
+              <p>Your privacy is important to SPlayer so we've developed a Privacy Policy that covers how we collect,
+                use, disclose, transfer, and store your personal information. In addition to this Privacy Policy, we
+                provide data and privacy information imbedded in our products for certain features that ask to use your
+                personal information.</p>
+              <p>You may be asked to provide your personal information anytime you are in contact with SPlayer or an
+                SPlayer affiliated company. SPlayer and its affiliates may share this personal information with each
+                other and use it consistent with this Privacy Policy. They may also combine it with other information
+                to provide and improve our products, services, content, and advertising. You are not required to
+                provide the personal information that we have requested, but, if you chose not to do so, in many cases
+                we will not be able to provide you with our products or services or respond to any queries you may
+                have.</p>
+              <p>SPlayer may update its End User License Agreement from time to time. When we change the End User
+                License Agreement in a material way, a notice will be posted on our website along with the updated End
+                User License Agreement.</p>
+
+              <p class="text-right">Dated: Nov 15, 2018</p>
+            </div>
           </div>
         </div>
       </div>
