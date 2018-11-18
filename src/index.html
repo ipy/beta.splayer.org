@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <link rel="dns-prefetch" href="https://github-cloud.s3.amazonaws.com">
   <link rel="dns-prefetch" href="https://github.com">
@@ -11,28 +11,40 @@
 
   <title>Splayer Beta</title>
   <style>
+    html {
+      -webkit-font-smoothing: antialiased;
+      font-family: "PingFang SC", -apple-system, 'Helvetica Neue', "Helvetica", "Microsoft YaHei", "WenQuanYi Micro Hei", Arial, sans-serif;
+      text-align: center;
+      color: #bcbcbc;
+      min-width: 425px;
+      min-height: 500px;
+    }
     html,
     body {
-      margin: 0;
       box-sizing: border-box;
-      min-width: 320px;
-      -webkit-font-smoothing: antialiased;
+      margin: 0;
       height: 100%;
+    }
+
+    body {
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
     }
 
     @media (max-width:750px) {
       html {
-        font-size: 6.25px;
+        font-size: 7px;
       }
     }
 
-    @media (min-width:750px) and (max-width: 1200px) {
+    @media (min-width:750px) and (max-width: 1071px) {
       html {
-        font-size: 0.833vw;
+        font-size: 0.933vw;
       }
     }
 
-    @media(min-width:1200px) {
+    @media(min-width:1071px) {
       html {
         font-size: 10px;
       }
@@ -40,14 +52,6 @@
 
     html:lang(en) body {
       box-shadow: inset 0 0 0 0.5rem #ff7a1c;
-    }
-
-    body {
-      font-family: "PingFang SC", -apple-system, 'Helvetica Neue', "Helvetica", "Microsoft YaHei", "WenQuanYi Micro Hei", Arial, sans-serif;
-      text-align: center;
-      padding: 20rem 5rem 15rem;
-      /* TODO: flex */
-      color: #bcbcbc;
     }
 
     a {
@@ -86,12 +90,20 @@
     .container {
       margin: 0 auto;
     }
+    .container-spacing-before {
+      flex: 10;
+    }
+    .container-spacing-after {
+      flex: 12;
+    }
 
     .title {
       color: #383838;
       font-weight: 200;
       font-size: 6rem;
       line-height: 8.4rem;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
 
     .title:lang(en) {
@@ -148,12 +160,14 @@
       transition: .2s ease-in-out transform, .2s ease-in-out opacity;
     }
 
-    .download-button:hover {
+    .download-button:hover,
+    .download-button:active {
       color: white;
       transform: translateY(-2rem);
     }
 
-    .download-button:hover::after {
+    .download-button:hover::after,
+    .download-button:active::after {
       transform: translate(-50%, 1rem);
       opacity: 1;
     }
@@ -306,6 +320,39 @@
     html[data-os=mac] .inline-block.show-on-mac {
       display: inline-block;
     }
+
+    @media screen and (max-device-width: 450px) {
+      html {
+        font-size: 1vh;
+        min-width: 0;
+      }
+      .version {
+        margin-bottom: 6rem;
+      }
+      .divider {
+        width: 90.4vw;
+      }
+      .links {
+        margin-top: 3rem;
+      }
+      .link {
+        width: 100%;
+        margin-right: 0 !important;
+        margin-bottom: 3rem;
+      }
+      .eula-container {
+        transform: none;
+        border-radius: 0;
+        width: 100%;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+      }
+      .eula-content {
+        max-height: 70vh;
+      }
+    }
   </style>
   <style id="lang-style">
     html [lang]:not(:lang(zh)) { display: none; }
@@ -354,6 +401,7 @@
 </head>
 
 <body>
+  <div class="container-spacing-before"></div>
   <div class="container">
     <div class="title" lang="zh">
       射手播放器 Splayer
@@ -397,16 +445,16 @@
 
     <div class="links">
       <a target="_blank" href="https://github.com/chiflix/splayerx/releases/download/{{version}}/SPlayer-Setup-{{version}}.exe"
-        class="link show-on-mac">
+        class="link inline-block show-on-mac">
         <span lang="zh">Windows 版本下载</span>
         <span lang="en">Download for Windows</span>
       </a>
       <a target="_blank" href="https://github.com/chiflix/splayerx/releases/download/{{version}}/SPlayer-{{version}}.dmg"
-        class="link show-on-win">
+        class="link inline-block show-on-win">
         <span lang="zh">macOS 版本下载</span>
         <span lang="en">Download for macOS</span>
       </a>
-      <div class="inline-block link">
+      <div class="link inline-block">
         <label for="eula-switcher" class="hover-color-primary">
           <span lang="zh">用户协议</span>
           <span lang="en">License Agreement</span>
@@ -745,14 +793,15 @@
         </div>
       </div>
 
-      <a href="javascript:switchLang('zh')" class="link" lang="en">
+      <a href="javascript:switchLang('zh')" class="link inline-block" lang="en">
         中文
       </a>
-      <a href="javascript:switchLang('en')" class="link" lang="zh">
+      <a href="javascript:switchLang('en')" class="link inline-block" lang="zh">
         English
       </a>
     </div>
   </div>
+  <div class="container-spacing-after"></div>
 </body>
 
 </html>
