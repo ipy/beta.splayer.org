@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <link rel="dns-prefetch" href="https://github-cloud.s3.amazonaws.com">
   <link rel="dns-prefetch" href="https://github.com">
@@ -11,70 +11,47 @@
 
   <title>Splayer Beta</title>
   <style>
+    html {
+      -webkit-font-smoothing: antialiased;
+      font-family: "PingFang SC", -apple-system, 'Helvetica Neue', "Helvetica", "Microsoft YaHei", "WenQuanYi Micro Hei", Arial, sans-serif;
+      text-align: center;
+      color: #bcbcbc;
+      min-width: 425px;
+      min-height: 500px;
+    }
     html,
     body {
-      margin: 0;
       box-sizing: border-box;
-      min-width: 320px;
-      -webkit-font-smoothing: antialiased;
+      margin: 0;
+      height: 100%;
+    }
+
+    body {
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
     }
 
     @media (max-width:750px) {
       html {
-        font-size: 6.25px;
-      }
-
-      @media(min-height:518px) {
-
-        html,
-        body {
-          height: 100%;
-        }
+        font-size: 7px;
       }
     }
 
-    @media (min-width:750px) and (max-width: 1200px) {
+    @media (min-width:750px) and (max-width: 1071px) {
       html {
-        font-size: 0.833vw;
-      }
-
-      @media(min-height:69vw) {
-
-        html,
-        body {
-          height: 100%;
-        }
+        font-size: 0.933vw;
       }
     }
 
-    @media(min-width:1200px) {
+    @media(min-width:1071px) {
       html {
         font-size: 10px;
       }
-
-      @media(min-height:829px) {
-
-        html,
-        body {
-          height: 100%;
-        }
-      }
-    }
-
-    html:lang(en) {
-      padding: 0.5rem;
     }
 
     html:lang(en) body {
       box-shadow: inset 0 0 0 0.5rem #ff7a1c;
-    }
-
-    body {
-      font-family: "PingFang SC", -apple-system, 'Helvetica Neue', "Helvetica", "Microsoft YaHei", "WenQuanYi Micro Hei", Arial, sans-serif;
-      text-align: center;
-      padding: 20rem 5rem 15rem;
-      /* TODO: flex */
-      color: #bcbcbc;
     }
 
     a {
@@ -82,7 +59,7 @@
     }
 
     a:hover {
-      color: #676767;
+      color: #ff7a1c;
     }
 
     a,
@@ -106,8 +83,18 @@
       display: none;
     }
 
+    .hover-color-primary:hover {
+      color: #ff7a1c;
+    }
+
     .container {
       margin: 0 auto;
+    }
+    .container-spacing-before {
+      flex: 10;
+    }
+    .container-spacing-after {
+      flex: 12;
     }
 
     .title {
@@ -115,6 +102,8 @@
       font-weight: 200;
       font-size: 6rem;
       line-height: 8.4rem;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
 
     .title:lang(en) {
@@ -138,7 +127,7 @@
 
     .download-button {
       color: white;
-      background: #FF7A1C;
+      background: #ff7a1c;
       box-shadow: 0.2rem 0.3rem 0.6rem 0 rgba(0, 0, 0, 0.16);
       border-radius: 0.5rem;
       box-sizing: border-box;
@@ -171,12 +160,14 @@
       transition: .2s ease-in-out transform, .2s ease-in-out opacity;
     }
 
-    .download-button:hover {
+    .download-button:hover,
+    .download-button:active {
       color: white;
       transform: translateY(-2rem);
     }
 
-    .download-button:hover::after {
+    .download-button:hover::after,
+    .download-button:active::after {
       transform: translate(-50%, 1rem);
       opacity: 1;
     }
@@ -191,7 +182,7 @@
       margin: 0 auto;
       height: 0.2rem;
       width: 68rem;
-      background: radial-gradient(#bcbcbc 10%, white 80%);
+      background: radial-gradient(#c0c8c9, 10%, white 80%);
     }
 
     .links {
@@ -242,7 +233,7 @@
       box-sizing: border-box;
       width: 66.7vw;
       padding: 8rem 3.6rem 8rem 8rem;
-      background-image: linear-gradient(0deg, #fff, #c0c8c9, #fff);
+      background-image: linear-gradient(-180deg, #F78542 0%, #CC5400 100%);
       box-shadow: 0 10px 30px 0 rgba(0,0,0,0.20);
       border-radius: 5px;
       text-align: left;
@@ -329,10 +320,44 @@
     html[data-os=mac] .inline-block.show-on-mac {
       display: inline-block;
     }
+
+    @media screen and (max-device-width: 450px) {
+      html {
+        font-size: 1vh;
+        min-width: 0;
+      }
+      .version {
+        margin-bottom: 6rem;
+      }
+      .divider {
+        width: 90.4vw;
+      }
+      .links {
+        margin-top: 3rem;
+      }
+      .link {
+        width: 100%;
+        margin-right: 0 !important;
+        margin-bottom: 3rem;
+      }
+      .eula-container {
+        transform: none;
+        border-radius: 0;
+        width: 100%;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+      }
+      .eula-content {
+        max-height: 70vh;
+      }
+    }
   </style>
   <style id="lang-style">
     html [lang]:not(:lang(zh)) { display: none; }
   </style>
+
   <script>
     function switchLang(lang) {
       var html = document.getElementsByTagName('html')[0];
@@ -363,9 +388,20 @@
     switchLang(lang);
     detectOS();
   </script>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-2468227-4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-2468227-4');
+  </script>
+
 </head>
 
 <body>
+  <div class="container-spacing-before"></div>
   <div class="container">
     <div class="title" lang="zh">
       射手播放器 Splayer
@@ -409,17 +445,17 @@
 
     <div class="links">
       <a target="_blank" href="https://github.com/chiflix/splayerx/releases/download/0.0.3/SPlayer-Setup-0.0.3.exe"
-        class="link show-on-mac">
+        class="link inline-block show-on-mac">
         <span lang="zh">Windows 版本下载</span>
         <span lang="en">Download for Windows</span>
       </a>
       <a target="_blank" href="https://github.com/chiflix/splayerx/releases/download/0.0.3/SPlayer-0.0.3.dmg"
-        class="link show-on-win">
+        class="link inline-block show-on-win">
         <span lang="zh">macOS 版本下载</span>
         <span lang="en">Download for macOS</span>
       </a>
-      <div class="inline-block link">
-        <label for="eula-switcher">
+      <div class="link inline-block">
+        <label for="eula-switcher" class="hover-color-primary">
           <span lang="zh">用户协议</span>
           <span lang="en">License Agreement</span>
         </label>
@@ -757,14 +793,15 @@
         </div>
       </div>
 
-      <a href="javascript:switchLang('zh')" class="link" lang="en">
+      <a href="javascript:switchLang('zh')" class="link inline-block" lang="en">
         中文
       </a>
-      <a href="javascript:switchLang('en')" class="link" lang="zh">
+      <a href="javascript:switchLang('en')" class="link inline-block" lang="zh">
         English
       </a>
     </div>
   </div>
+  <div class="container-spacing-after"></div>
 </body>
 
 </html>
