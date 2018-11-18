@@ -8,7 +8,7 @@ fi
 DIR=$(dirname $(dirname $($READLINK -f $0)))
 if [ -z $DIR ]; then exit 1; fi;
 rm -fr $DIR/dist
-git clone --branch=gh-pages --depth=1 git@github.com:chiflix/chiflix.github.io.git $DIR/dist
+git clone --branch=gh-pages --depth=1 git@github.com:$TRAVIS_REPO_SLUG.git $DIR/dist
 if [ -z $DIR/dist ]; then exit 1; fi;
 rm -fr $DIR/dist/*
 cp -r $DIR/src/* $DIR/dist
