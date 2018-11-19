@@ -1,6 +1,11 @@
-language: generic
+language: minimal
 git:
   depth: 1
+before_install:
+  - openssl aes-256-cbc -K $encrypted_9f5bb4b579a6_key -iv $encrypted_9f5bb4b579a6_iv -in github_deploy_key.enc -out github_deploy_key -d
+  - chmod 600 github_deploy_key
+  - eval $(ssh-agent -s)
+  - ssh-add github_deploy_key
 deploy:
   provider: script
   script: bash scripts/publish.sh
