@@ -9,18 +9,13 @@
   <link rel="dns-prefetch" href="https://github.com">
   <link rel="shortcut icon" href="https://splayer.org/favicon.png">
 
-  <title>Splayer Beta</title>
+  <title>SPlayer Beta</title>
 
-  <link rel="preload" href="https://fonts.googleapis.com/css?family=Roboto" as="style" onload="this.rel='stylesheet';this.onload='';">>
+  <link rel="preload" href="https://fonts.googleapis.com/css?family=Roboto" as="style" onload="this.rel='stylesheet';this.onload='';">
 
   <style>
-    @font-face {
-      font-family: HEN;
-      src: local("Helvetica Neue");
-      unicode-range: U+41-7A;
-    }
     html {
-      font-family: HEN, "PingFang SC", "Helvetica Neue", "Helvetica", -apple-system, "Microsoft YaHei", "WenQuanYi Micro Hei", Arial, sans-serif;
+      font-family: "PingFang SC", "Helvetica Neue", "Helvetica", -apple-system, "Microsoft YaHei", "WenQuanYi Micro Hei", Arial, sans-serif;
       -webkit-font-smoothing: antialiased;
       text-align: center;
       color: #bcbcbc;
@@ -118,9 +113,9 @@
     }
 
     .title:lang(en) {
-      /* roboto */
       font-size: 8rem;
       line-height: 9.4rem;
+      font-weight: 100;
     }
 
     .slogan {
@@ -129,11 +124,13 @@
       font-size: 2rem;
       line-height: 2.8rem;
       margin-top: 2rem;
+      letter-spacing: 0.6rem;
     }
 
     .slogan:lang(en) {
       color: #6e6e6e;
       font-size: 2rem;
+      letter-spacing: 0.4rem;
     }
 
     .download-button {
@@ -152,7 +149,7 @@
       font-size: 2.4rem;
       margin-bottom: 2rem;
       margin-top: 8rem;
-      transition: .2s ease-in-out transform;
+      transition: .4s ease-in-out transform;
     }
 
     .download-button:lang(en) {
@@ -168,7 +165,7 @@
       background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0) 80%);
       margin-left: 50%;
       transform: translate(-50%, 0);
-      transition: .2s ease-in-out transform, .2s ease-in-out opacity;
+      transition: .2s ease-in-out opacity;
     }
 
     .download-button:hover,
@@ -187,6 +184,7 @@
       font-size: 1.2rem;
       line-height: 1.7rem;
       margin-bottom: 4rem;
+      letter-spacing: 0.1rem;
     }
 
     .divider {
@@ -251,11 +249,29 @@
       color: white;
     }
     .eula-close {
-      font-size: 2.8rem;
-      line-height: 2.8rem;
+      display: block;
+      width: 2rem;
+      height: 2rem;
       position: absolute;
       top: 4rem;
       right: 3.6rem;
+    }
+    .eula-close:before,
+    .eula-close:after {
+      content: '';
+      position: absolute;
+      width: 141%;
+      height: 0.2rem;
+      background: white;
+      border-radius: 0.2rem;
+      top: 50%;
+      left: -20.5%;
+    }
+    .eula-close:before {
+      transform: translateY(-50%) rotate(45deg);
+    }
+    .eula-close:after {
+      transform: translateY(-50%) rotate(-45deg);
     }
     .eula-header {
       font-size: 2.4rem;
@@ -415,10 +431,10 @@
   <div class="container-spacing-before"></div>
   <div class="container">
     <div class="title" lang="zh">
-      射手播放器 Splayer
+      射手播放器 SPlayer
     </div>
     <div class="title" lang="en">
-      Splayer
+      SPlayer
     </div>
 
     <div class="slogan" lang="zh">
@@ -474,9 +490,9 @@
         <div class="eula">
           <label for="eula-switcher" class="eula-backdrop"></label>
           <div class="eula-container">
-            <label for="eula-switcher" class="eula-close">✕</label>
+            <label for="eula-switcher" class="eula-close"></label>
 
-            <h1 class="eula-header" lang="zh">用户协议</h1>
+            <h1 class="eula-header" lang="zh">最终用户协议</h1>
             <div class="eula-content" lang="zh">
               <h2>1. 对条款的接受</h2>
               <p>A. 你使用或访问SPlayer网站或任何SPlayer产品、软件、资料源，以及通过SPlayer向你提供的服务（统称为"服务"），即表示你同意接受：
@@ -565,7 +581,7 @@
               <p class="text-right">日期：2018年11月15日</p>
             </div>
 
-            <h1 class="eula-header" lang="en">License Agreement</h1>
+            <h1 class="eula-header" lang="en">End User License Agreement</h1>
             <div class="eula-content" lang="en">
               <h2>1. Your Acceptance</h2>
               <p>A. By using or visiting the SPlayer website or any SPlayer products, software, data feeds, and
