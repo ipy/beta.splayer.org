@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh" data-os="win">
+<html lang="zh-Hans" data-os="win">
 
 <head>
   <meta charset="utf-8">
@@ -255,8 +255,8 @@
       top: 4rem;
       right: 3.6rem;
     }
-    .eula-close:before,
-    .eula-close:after {
+    .eula-close::before,
+    .eula-close::after {
       content: '';
       position: absolute;
       width: 141%;
@@ -266,10 +266,10 @@
       top: 50%;
       left: -20.5%;
     }
-    .eula-close:before {
+    .eula-close::before {
       transform: translateY(-50%) rotate(45deg);
     }
-    .eula-close:after {
+    .eula-close::after {
       transform: translateY(-50%) rotate(-45deg);
     }
     .eula-header {
@@ -299,6 +299,77 @@
     .eula-content p {
       font-weight: 200;
       margin-bottom: 2rem;
+    }
+
+    .arrow-down {
+      margin-left: 1rem;
+      position: relative;
+      display: inline-block;
+    }
+    .arrow-down::before,
+    .arrow-down::after {
+      content: '';
+      position: absolute;
+      width: 0.6rem;
+      height: 0.1rem;
+      background: #383838;
+      top: -0.3rem;
+    }
+    .arrow-down::before {
+      border-top-left-radius: 0.05rem;
+      border-bottom-left-radius: 0.05rem;
+      transform: translate(-0.42rem, -50%) rotate(38deg);
+    }
+    .arrow-down::after {
+      border-top-right-radius: 0.05rem;
+      border-bottom-right-radius: 0.05rem;
+      transform: translate(0, -50%) rotate(-38deg);
+    }
+    .language-switcher {
+      position: relative;
+      color: #383838;
+    }
+    .language-droplist-container {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4rem;
+    }
+    .language-switcher:hover .language-droplist-container {
+      display: block;
+    }
+    .language-droplist {
+      position: absolute;
+      background: white;
+      top: 3rem;
+      box-shadow: 0 0.2rem 0.6rem 0 rgba(0,0,0,0.1);
+      border-radius: 0.2rem;
+      box-sizing: border-box;
+      padding: 0.5rem 3.8rem 2rem 2rem;
+      left: -2rem;
+    }
+    .language-droplist::before {
+      content: '';
+      display: block;
+      position: absolute;
+      width: 1.13rem;
+      height: 1.13rem;
+      background: white;
+      top: -0.6rem;
+      left: 50%;
+      transform: translateX(-50%) rotate(45deg);
+      box-shadow: -0.1rem -0.1rem 0.2rem 0 rgba(0, 0, 0, 0.05);
+    }
+    .language-droplist-item {
+      display: block;
+      text-align: left;
+      line-height: 2rem;
+      margin-top: 1rem;
+      color: #383838;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
 
     ::-webkit-scrollbar {
@@ -360,6 +431,7 @@
       }
       .links {
         margin-top: 3rem;
+        letter-spacing: 0.1rem;
       }
       .link {
         width: 100%;
@@ -381,7 +453,7 @@
     }
   </style>
   <style id="lang-style">
-    html [lang]:not(:lang(zh)) { display: none; }
+    html [lang]:not(:lang(zh-Hans)) { display: none; }
   </style>
 
   <script>
@@ -406,9 +478,19 @@
       }
     }
 
-    var validLang = ['zh', 'en'];
-    var lang = (navigator.language || navigator.userLanguage).substr(0, 2);;
-    if (validLang.indexOf(lang) === -1) {
+    var validLang = ['zh-Hans', 'zh-Hant', 'en'];
+    var lang = navigator.language || navigator.userLanguage;
+    if (lang === 'zh-CN' || lang === 'zh-SG') {
+      lang = 'zh-Hans';
+    } else if (lang === 'zh-TW' || lang === 'zh-HK') {
+      lang = 'zh-Hant';
+    } else if (lang.substr(0, 2) === 'zh') {
+      if (lang.indexOf('Hant') !== -1) {
+        lang = 'zh-Hant';
+      } else {
+        lang = 'zh-Hans';
+      }
+    } else {
       lang = 'en';
     }
     switchLang(lang);
@@ -429,60 +511,53 @@
 <body>
   <div class="container-spacing-before"></div>
   <div class="container">
-    <div class="title" lang="zh">
-      射手影音 SPlayer
-    </div>
-    <div class="title" lang="en">
-      SPlayer
-    </div>
+    <div class="title" lang="zh-Hans">射手影音 SPlayer</div>
+    <div class="title" lang="zh-Hant">射手影音 SPlayer</div>
+    <div class="title" lang="en">SPlayer</div>
 
-    <div class="slogan" lang="zh">
-      一个有灵魂的播放器
-    </div>
-    <div class="slogan" lang="en">
-      to be the mediaplayer with a soul
-    </div>
+    <div class="slogan" lang="zh-Hans">一个有灵魂的播放器</div>
+    <div class="slogan" lang="zh-Hant">一個有靈魂的播放器</div>
+    <div class="slogan" lang="en">to be the mediaplayer with a soul</div>
 
     <a target="_blank" href="https://github.com/chiflix/splayerx/releases/download/{{version}}/SPlayer-{{version}}.dmg"
       class="download-button inline-block show-on-mac">
-      <span lang="zh">立刻下载</span>
+      <span lang="zh-Hans">立刻下载</span>
+      <span lang="zh-Hant">立刻下載</span>
       <span lang="en">Download for macOS</span>
     </a>
-    <div class="version show-on-mac" lang="zh">
-      v{{version}} 适用于 macOS 10.10 及以上
-    </div>
-    <div class="version show-on-mac" lang="en">
-      v{{version}} compatible with macOS 10.10 or later
-    </div>
+    <div class="version show-on-mac" lang="zh-Hans">v{{version}} 适用于 macOS 10.10 及以上</div>
+    <div class="version show-on-mac" lang="zh-Hant">v{{version}} 適用於 macOS 10.10 及以上</div>
+    <div class="version show-on-mac" lang="en">v{{version}} compatible with macOS 10.10 or later</div>
 
     <a target="_blank" href="https://github.com/chiflix/splayerx/releases/download/{{version}}/SPlayer-Setup-{{version}}.exe"
       class="download-button inline-block show-on-win">
-      <span lang="zh">立刻下载</span>
+      <span lang="zh-Hans">立刻下载</span>
+      <span lang="zh-Hant">立刻下載</span>
       <span lang="en">Download for Windows</span>
     </a>
-    <div class="version show-on-win" lang="zh">
-      v{{version}} 适用于 Windows 7 及以上
-    </div>
-    <div class="version show-on-win" lang="en">
-      v{{version}} compatible with Windows 7 or later
-    </div>
+    <div class="version show-on-win" lang="zh-Hans">v{{version}} 适用于 Windows 7 及以上</div>
+    <div class="version show-on-win" lang="zh-Hant">v{{version}} 適用於 Windows 7 及以上</div>
+    <div class="version show-on-win" lang="en">v{{version}} compatible with Windows 7 or later</div>
 
     <div class="divider"></div>
 
     <div class="links">
       <a target="_blank" href="https://github.com/chiflix/splayerx/releases/download/{{version}}/SPlayer-Setup-{{version}}.exe"
         class="link inline-block show-on-mac">
-        <span lang="zh">Windows 版本下载</span>
+        <span lang="zh-Hans">Windows 版本下载</span>
+        <span lang="zh-Hant">Windows 版本下載</span>
         <span lang="en">Download for Windows</span>
       </a>
       <a target="_blank" href="https://github.com/chiflix/splayerx/releases/download/{{version}}/SPlayer-{{version}}.dmg"
         class="link inline-block show-on-win">
-        <span lang="zh">macOS 版本下载</span>
+        <span lang="zh-Hans">macOS 版本下载</span>
+        <span lang="zh-Hant">macOS 版本下載</span>
         <span lang="en">Download for macOS</span>
       </a>
       <div class="link inline-block">
         <label for="eula-switcher" class="hover-color-primary">
-          <span lang="zh">用户协议</span>
+          <span lang="zh-Hans">用户协议</span>
+          <span lang="zh-Hant">用戶協議</span>
           <span lang="en">License Agreement</span>
         </label>
         <input type="checkbox" id="eula-switcher" class="hide">
@@ -491,8 +566,8 @@
           <div class="eula-container">
             <label for="eula-switcher" class="eula-close"></label>
 
-            <h1 class="eula-header" lang="zh">最终用户协议</h1>
-            <div class="eula-content" lang="zh">
+            <h1 class="eula-header" lang="zh-Hans">最终用户协议</h1>
+            <div class="eula-content" lang="zh-Hans">
               <h2>1. 对条款的接受</h2>
               <p>A. 您使用或访问SPlayer网站或任何SPlayer产品、软件、资料源，以及通过SPlayer向您提供的服务（统称为"服务"），即表示您同意接受：
                 <br>（1）本条款和条件（"服务条款"）
@@ -815,16 +890,112 @@
 
               <p class="text-right">Dated: Nov 15, 2018</p>
             </div>
+
+            <h1 class="eula-header" lang="zh-Hant">最終用戶協議</h1>
+            <div class="eula-content" lang="zh-Hant">
+              <h2>1. 對條款的接受</h2>
+              <p>A. 您使用或訪問SPlayer網站或任何SPlayer產品、軟件、資料源，以及通過SPlayer向您提供的服務（統稱為"服務"），即表示您同意接受：
+                <br>（1）本條款和條件（"服務條款"）
+                <br>（2）SPlayer隱私申明
+              </p>
+              <p>B. 盡管我們會試圖通知您有關上述服務條款的重大修改，但您應當定期查閱最新的版本。改或更正服務條款和政策，且您同意接受上述修改或更正的約束。本服務條款的任何內容不得視為賦予第三方權利或利益。</p>
+
+              <h2>2. 服務</h2>
+              <p>A.
+                本服務條款適用於本服務的所有用戶，包括向服務提供內容的用戶。"內容"包括您可以查看、訪問及提供給服務的文本、軟件、腳本、圖形、照片、聲音、音樂、視頻、視聽組合、互動功能和其他材料。服務包括SPlayer所有產品，包括但不限於所有通過SPlayer網站提供的產品、軟體和服務。</p>
+              <p>B.
+                服務可能包含非SPlayer所有或控制的第三方內容。SPlayer不控制且不對任何第三方的內容、隱私申明或行為承擔任何責任。另外，SPlayer不會也不能審查或編輯任何第三方的內容。使用本服務，您已明確免除SPlayer就您使用任何第三方內容所而產生的任何及全部責任。</p>
+              <p>C. 因此，當您離開本服務時，我們鼓勵您意識到已經離開，並且閱讀您要訪問的其他網站的條款和條件及隱私申明。</p>
+
+              <h2>3. SPlayer帳戶</h2>
+              <p>A. 為了訪問服務的某些功能，您可能需要創建一個帳戶</p>
+              <p>(例：用戶反饋)。未經允許，您不能使用其他人的帳戶。創建帳戶時，您必須提供準確和完整的資訊。您須對您的帳戶行為完全負責，且必須保護好自己的帳戶密碼。若有任何違反安全或未經授權使用帳戶的情況，您必須立即通知SPlayer。</p>
+              <p>B. 盡管SPlayer對任何因您帳戶未經授權的使用而引起的損失不承擔責任，但您可能承擔因上述未經授權的使用而導致SPlayer或其他方的損失。</p>
+
+              <h2>4. 服務的一般使用——許可權和限制</h2>
+              <p>A. SPlayer在此授權您按照本服務條款訪問和使用服務，但前提是：</p>
+              <p>B. 未經SPlayer事先書面授權，您同意不得將服務或內容的任何部分發布到任何其他媒體，除非SPlayer同意通過服務提供的功能開放了該發布方式。</p>
+              <p>C. 您同意不對服務的任何部分作改變或修改。</p>
+              <p>D. 您同意除了服務本身的視頻播放器或其他SPlayer明確授權的方法，不通過其他技術或方法訪問內容。</p>
+              <p>E. 未經SPlayer事先書面同意，您同意不得將內容用於下列商業目的：
+                <br>- 對連接到服務的鏈接，進行銷售；
+                <br>- 對服務或內容上的廣告、贊助或促銷，進行銷售；
+                <br>-
+                關於包含了通過服務發送內容的博客或網站，且該博客或網站發布廣告的，則對其任何網頁上的廣告、贊助或促銷，進行銷售，除非同一頁面上含有其他不是由SPlayer提供的材料且有足夠的價值成為上述銷售的基礎。
+              </p>
+              <p>F. 禁止的商業使用不包括：
+                <br>- 上傳原創內容到SPlayer，或者管理原創的內容；
+              </p>
+              <p>G.
+                您同意不使用或運行任何自動化系統（包括但不限於，"機器人"、"蜘蛛"或"離線閱讀器"）通過以下方式訪問服務，即該方式在相同的時間內，同人類通過普通線上網頁流覽器能合理提出的請求數量相比，向SPlayer服務器發送更多的請求資訊。盡管有前述規定，SPlayer允許公共搜索引擎的操作者為創建可供公共搜索索引的必要而使用蜘蛛從網站復制材料，但不得對這些材料作緩存或備份。SPlayer保留全部或在個別情況下取消上述例外的權利。您同意不得從服務中收集任何個人身份資訊，包括帳戶名稱，也不得將服務提供的交流平臺（例如評論、電子郵件）用於任何商業招攬目的。您同意不得為商業之目的，就用戶的內容招攬服務的任何用戶。</p>
+              <p>H. 在使用服務過程中，您應當遵守相關法律。</p>
+              <p>I. SPlayer保留隨時終止本服務任何方面的權利。</p>
+
+              <h2>5. 對內容的使用</h2>
+              <p>除了上述的一般限制，下列限制和條件特別適用於您對內容的使用。</p>
+              <p>在符合法律規定的著作權和其他知識產權的前提下，服務中的內容以及商標、服務標記和標識（"商標"）由SPlayer所有或已許可給SPlayer使用。</p>
+              <p>內容是按現狀提供給您。根據服務提供的功能和本服務條款的許可，您僅可以訪問內容以作為個人參考和使用。除非SPlayer在服務上對內容設置"下載"或類似鏈接，您不得下載任何內容。您不得復制、重制、提供網上訪問或電子方式傳送、出版、改編、發布、傳送、廣播、顯示、出售、許可或以任何其他方式，未經SPlayer或內容許可人的事先書面許可，將內容用於其他目的。對服務和內容未明確授予的權利，SPlayer及其許可人予以保留。</p>
+              <p>您同意不得規避、禁用或以其他方式幹擾服務的安全功能，阻止或限制使用或復制內容的功能，及能夠限制服務或內容使用的功能。</p>
+              <p>您了解，在使用本服務時，您將可能接觸到各種來源的內容，但是SPlayer不負責上述內容的準確性、可使用性、安全性及相關內容的知識產權。您進一步了解並同意，您有可能接觸不準確、攻擊性、不雅或不愉快的內容，並且您同意放棄，並在此放棄您享有或可能享有的，針對SPlayer的任何法律下或衡平原則下的權利或救濟。針對您對服務使用的相關事宜，您同意在法律允許的最大限度內賠償SPlayer、其所有者、操作者、關聯人、許可人和被許可人並保證其不受損害。</p>
+
+              <h2>6. 您的內容和行為</h2>
+              <p>作為SPlayer用戶，您可以向服務提交內容，包括文字描述文件和用戶評論等。但您明白，SPlayer不保證對您提交的資訊保密。</p>
+              <p>您應當對您的內容以及在服務上提交和發布內容所產生的後果完全承擔責任。您確認、陳述和保證，您擁有或得到發布您提交內容必需的許可、權利、同意和允許；且根據本服務條款，為在服務上發布該內容，您許可給SPlayer與該內容相關的所有專利、商標、商業秘密、版權或其他專有權利。</p>
+              <p>為了明確起見，您保留內容的所有權。然而，一旦將內容提交到SPlayer，您在此授予SPlayer一項在全球範圍內、非排他性的、免許可費的、可分許可且可轉讓的許可，以便根據服務和SPlayer的業務（包括其承繼方和關聯方的業務）使用、復制、發行、準備衍生作品、展示、出版、改編、提供線上版本或電子傳輸及運行內容，包括但不限於以任何媒體格式，在任何媒體管道推廣和重新發布服務（及其衍生作品）的全部或部分。您亦在此授予服務的每個用戶一項非排他性的許可，以通過服務訪問您的內容，根據服務功能和本服務條款，使用、復制、發行、展示、出版、提供線上版本或電子傳輸及運行內容。上述您授予的有關您提交給服務的內容的許可，將自您從服務上移除或刪除視頻後，在商業合理的期間內終止。您了解並同意，對於您已移除或刪除的視頻，SPlayer可以在服務器上保留副本，但不得展示、發行或運行。對於您提交的用戶評論中的上述許可，將永久有效且不可撤銷。</p>
+              <p>您進一步同意，您提交至服務的內容不得含有任何第三方的版權材料或第三方專有權利的材料，除非您已獲得材料合法所有人的許可或者您有權發布材料並授予SPlayer相應的所有許可。</p>
+              <p>SPlayer不認可任何用戶或許可人提交到服務的內容，或者表達的任何意見、提議或建議，同時SPlayer明確聲明免除承擔有關內容的任何責任。SPlayer不允許服務上有任何侵犯版權和知識產權的行為，如果SPlayer在得到有關內容侵犯他人的知識產權的適當通知後，SPlayer將刪除所有內容。SPlayer保留未事先通知而刪除內容的權利。</p>
+
+              <h2>7. 帳戶終止政策</h2>
+              <p>如果在適當的情況下用戶被確定為重復侵權人，SPlayer將終止該用戶訪問服務。</p>
+              <p>SPlayer有權決定內容是否因為侵犯版權以外的原因而違反服務條款，例如，但不限於色情、淫穢或超長材料。對於違反服務條款上傳該材料，SPlayer可以隨時且無須事先通知，自行決定刪除該內容和/或終止用戶帳戶。</p>
+
+              <h2>8. 著作權政策</h2>
+              <p>SPlayer的某些服務提供翻譯功能，具體翻譯的資料和內容由您提供。您必須保證僅對已獲得的合法材料和內容進行翻譯，且僅可以在學術上使用或是為聽覺障礙者提供福利所用。SPlayer不主動制作和生產違反法律法規的材料和內容，也禁止這種行為。</p>
+              <p>關於被檢舉侵害第三人著作權的任何行為，如果任何用戶被判定為侵權累犯，SPlayer將嘗試終止該用戶對產品的使用權。此處所載之侵權累犯為已被通知其有超過兩次以上之侵權活動。</p>
+
+              <h2>9. 免責聲明</h2>
+              <p>您已同意，使用本服務由您自行承擔風險。在法律允許的最大限度內，SPlayer全部免予承擔所有明示或默示的關於服務和您使用服務的保證。在法律允許的最大限度內，SPlayer免予承擔所有有關本網站或其鏈接的網站內容的準確性或完整性的保證、條件、條款和陳述，並且不承擔下列責任：（I）錯誤或內容失實；（II）您訪問或使用本服務引起任何性質的人身傷害或人身損害；（III）未經授權訪問或使用有安全措施的服務器和/或儲存在服務器上的任何個人資訊和/或財務資訊；（IV）我們服務的中斷或停止傳輸；（IV）第三方可能通過我們的服務傳輸的任何軟體錯誤、病毒、木馬或類似性質的程式；和/或（V）任何內容中的錯誤或疏忽，或由於使用發布、郵件傳送、傳輸或通過服務的其他方式獲得的內容，導致的任何形式的損失或損害。SPlayer不保證、認同、擔保或承擔由任何第三方通過服務或任何超鏈接服務或橫幅功能或其他廣告發布或提供的產品或服務的責任，並且對於您與第三方提供商就商品或服務的交易，SPlayer不作為一方當事人，也不負責任何監控責任。就如同任何通過媒體或在其他情況下購買產品或服務，您應當盡到自己最佳的判斷和合理的謹慎。</p>
+
+              <h2>10. 責任限制</h2>
+              <p>在法律允許的最大限度內，在任何情況下，無論根據保證、合同、侵權或其他法律理論，且無論公司是否被告知此類損害的可能性，SPlayer均不向您承擔由下列原因引起的任何直接的、間接的、偶然的、特殊的、懲罰性的、損失或支出或衍生性的損害：（I）錯誤或內容失實；（II）您訪問或使用本服務引起任何性質的人身傷害或人身損害；（III）未經授權來訪問或使用有安全措施的服務器和/或儲存在服務器上的任何個人資訊和/或財務資訊；（IV）我們服務的中斷或停止傳輸；（IV）第三方可能通過我們的服務傳輸的任何軟體錯誤、病毒、木馬或類似性質的程式；和/或（V）任何內容中的錯誤或疏忽，或由於使用發布、郵件傳送、傳輸或通過服務的其他方式獲得的內容，導致的任何形式的損失或損害。</p>
+              <p>您明確了解，SPlayer不負責任何內容或誹謗、冒犯或任何第三方的不合法行為。上述情況對您可能存在的傷害或損害風險完全由您自己承擔。</p>
+
+              <h2>11. 接受服務條款的行為能力</h2>
+              <p>您確定您為18周歲以上的用戶，或者有自主能力的未成年人，或已獲得父母或監護人的同意，且完全能夠有能力簽署本服務條款中規定的條款、條件、義務、確認、陳述和保證，並遵守和履行本服務條款。在任何情況下，您確認您為13周歲以上的用戶，因為本服務不向13周歲以下的兒童提供。如果您未滿13周歲，請不要使用本服務。適合您的服務還有很多。請與您父母討論哪些網站適合您流覽。</p>
+              <p>我們在提供服務的同時提供服務條款，從而使您了解哪些條款適用於您。您確認，我們已經給予您合理的機會來閱讀上述服務條款且您已同意該條款。</p>
+
+              <h2>12. 轉讓</h2>
+              <p>您不得轉讓或轉移本服務條款及其所授予的權利和許可，但SPlayer可對其轉讓，且不受限制。</p>
+
+              <h2>13. 一般條款</h2>
+              <p>本服務條款及隱私申明和SPlayer發布的其他關於服務的法律通知，應當構成您與SPlayer之間就服務約定的完整協定。如果其中某一條款不可執行，其不影響其他條款。對任何服務條款的放棄，不得視為將來或繼續放棄該條款或其他條款。SPlayer未主張本服務條款中的權利或規定的，不構成對該權利或規定的放棄。您和SPlayer同意，由本服務引起的或與之相關的訴訟理由必須在該訴訟理由產生後一（1）年內提出。否則，該訴訟理由將被永久排除。</p>
+
+              <h2>14. 隱私申明</h2>
+              <p>SPlayer
+                非常重視您的隱私。因此我們制定了涵蓋如何收集、使用、披露、轉讓以及存儲您的信息的隱私政策。除了本隱私政策以外，我們還針對某些會要求使用您的個人信息的功能，在我們的產品中嵌入了數據和隱私信息。</p>
+              <p>任何時候您與 SPlayer 或 SPlayer 關聯公司聯系，都可能會要求您提供個人信息。SPlayer 及其關聯公司可共享這些個人信息，並按本隱私政策使用這些信息。SPlayer</p>
+              <p>及其關聯公司還可將這些信息與其他信息結合起來，用於提供和改進我們的產品、服務、內容和廣告宣傳。您不是一定要提供我們要求的個人信息，但在許多情況下，如果您選擇不提供，我們將無法為您提供我們的產品或服務，也無法回應您遇到的任何問題。</p>
+              <p>SPlayer 可隨時對其用戶協議加以更新。如果我們對用戶協議作出重大變更，我們將在公司網站上發布經更新的用戶協議。</p>
+
+              <p class="text-right">日期：2018年11月15日</p>
+            </div>
           </div>
         </div>
       </div>
 
-      <a href="javascript:switchLang('zh')" class="link inline-block" lang="en">
-        中文
-      </a>
-      <a href="javascript:switchLang('en')" class="link inline-block" lang="zh">
-        English
-      </a>
+      <div class="inline-block language-switcher">
+        <span lang="zh-Hans">中文(简体)</span>
+        <span lang="zh-Hant">中文(繁體)</span>
+        <span lang="en">English</span>
+        <span class="arrow-down"></span>
+        <div class="language-droplist-container">
+          <div class="language-droplist">
+            <a href="javascript:switchLang('zh-Hans');" class="language-droplist-item">中文（简体）</a>
+            <a href="javascript:switchLang('zh-Hant');" class="language-droplist-item">中文（繁體）</a>
+            <a href="javascript:switchLang('en');" class="language-droplist-item">English</a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   <div class="container-spacing-after"></div>
