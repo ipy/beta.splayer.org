@@ -372,6 +372,21 @@
       text-overflow: ellipsis;
     }
 
+    @media (max-height: 90vw) {
+      .language-droplist-container {
+        top: -2rem;
+      }
+      .language-droplist {
+        top: auto;
+        bottom: 3rem;
+      }
+      .language-droplist::before {
+        top: auto;
+        bottom: -0.6rem;
+        transform: translateX(-50%) rotate(-135deg);
+      }
+    }
+
     ::-webkit-scrollbar {
       width: 0.8rem;
       background: transparent;
