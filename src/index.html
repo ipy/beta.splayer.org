@@ -135,6 +135,7 @@
     }
 
     .download-button {
+      position: relative;
       color: white;
       background: #ff7a1c;
       box-shadow: 0.2rem 0.3rem 0.6rem 0 rgba(0, 0, 0, 0.16);
@@ -151,6 +152,7 @@
       margin-bottom: 2rem;
       margin-top: 8rem;
       transition: .4s ease-in-out transform;
+      will-change: tranform;
     }
 
     .download-button:lang(en) {
@@ -160,13 +162,15 @@
     .download-button::after {
       opacity: 0;
       content: ' ';
+      position: absolute;
       display: block;
       width: 18rem;
       height: 2rem;
       background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0) 80%);
-      margin-left: 50%;
-      transform: translate(-50%, 1rem);
-      transition: .2s ease-in-out opacity;
+      left: 50%;
+      transform: translate(-50%, -1rem);
+      transition: .2s ease-in-out opacity, .4s ease-in-out transform;
+      will-change: tranform;
     }
 
     .download-button:hover,
@@ -178,6 +182,7 @@
     .download-button:hover::after,
     .download-button:active::after {
       opacity: 1;
+      transform: translate(-50%, 1rem);
     }
 
     .version {
@@ -332,15 +337,19 @@
       color: #bcbcbc;
     }
     .language-droplist-container {
-      display: none;
+      opacity: 0;
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
-      height: 4rem;
+      overflow: hidden;
+      height: 0;
+      transition: .3s ease-in-out opacity;
     }
     .language-switcher:hover .language-droplist-container {
-      display: block;
+      opacity: 1;
+      height: 4rem;
+      overflow: visible;
     }
     .language-droplist {
       position: absolute;
