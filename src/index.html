@@ -541,7 +541,7 @@
 
     window.onload = function() {
       document.querySelector('.download-button').addEventListener('click', function() {
-        gtag('event', 'download-clicked');
+        gtag('event', 'download', { event_action: 'click' });
       });
     }
   </script>
