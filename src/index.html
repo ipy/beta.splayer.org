@@ -7,11 +7,9 @@
 
   <link rel="dns-prefetch" href="https://github-cloud.s3.amazonaws.com">
   <link rel="dns-prefetch" href="https://github.com">
-  <link rel="shortcut icon" href="https://splayer.org/favicon.png">
+  <link rel="shortcut icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
 
   <title>SPlayer Beta</title>
-  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
-
 
   <link rel="preload" href="https://fonts.googleapis.com/css?family=Roboto" as="style" onload="this.rel='stylesheet';this.onload='';">
 
@@ -401,57 +399,6 @@
       }
     }
 
-    .mobile-modal-container {
-      opacity: 0;
-      transition: .3s ease-in-out opacity;
-      overflow: hidden;
-      position: fixed;
-      left: 0;
-      right: 0;
-      top: 0;
-      bottom: 0;
-      width: 0;
-      height: 0;
-    }
-    .mobile-modal-backdrop {
-      position: absolute;
-      left: 0;
-      right: 0;
-      top: 0;
-      bottom: 0;
-      background: black;
-      opacity: 0.8;
-    }
-    .mobile-modal {
-      position: absolute;
-      top: 44.3%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      white-space: normal;
-      font-size: 1.6rem;
-      border-radius: 0.5rem;
-      overflow: hidden;
-      width:80%;
-    }
-    .mobile-modal-body {
-      background: #F78542;
-      color: white;
-      line-height: 3rem;
-      letter-spacing: 0.1rem;
-      padding: 1rem 2.3rem;
-    }
-    .mobile-modal-footer {
-      background: white;
-      color: #383838;
-      line-height: 2.2rem;
-      letter-spacing: 0.6rem;
-      padding: 1.3rem 2.2rem;
-      cursor: pointer;
-    }
-    .mobile-modal-footer:lang(en) {
-      letter-spacing: 0;
-    }
-
     ::-webkit-scrollbar {
       width: 0.8rem;
       background: transparent;
@@ -564,21 +511,7 @@
         html.setAttribute('data-os', 'win');
       }
     }
-
-    // function showMobileAlert() {
-    //   var el = document.querySelector('.mobile-modal-container');
-    //   el.style.width = '100vw';
-    //   el.style.height = '100vh';
-    //   el.style.overflow = 'visible';
-    //   el.style.opacity = 1;
-    //   el.querySelector('.mobile-modal-footer').addEventListener('click', function() {
-    //     el.style.width = '0';
-    //     el.style.height = '0';
-    //     el.style.overflow = 'hidden';
-    //     el.style.opacity = 0;
-    //   });
-    // }
-
+  
     var validLang = ['zh-Hans', 'zh-Hant', 'en'];
     var lang = navigator.language || navigator.userLanguage;
     if (lang === 'zh-CN' || lang === 'zh-SG') {
@@ -596,18 +529,6 @@
     }
     switchLang(lang);
     detectOS();
-    document.addEventListener('DOMContentLoaded', function() {
-      if( navigator.userAgent.match(/Android/i)
-        || navigator.userAgent.match(/webOS/i)
-        || navigator.userAgent.match(/iPhone/i)
-        || navigator.userAgent.match(/iPad/i)
-        || navigator.userAgent.match(/iPod/i)
-        || navigator.userAgent.match(/BlackBerry/i)
-        || navigator.userAgent.match(/Windows Phone/i)
-      ){
-        showMobileAlert();
-      }
-    });
   </script>
 
   <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -1112,23 +1033,6 @@
     </div>
   </div>
   <div class="container-spacing-after"></div>
-
-  <!-- <div class="mobile-modal-container">
-    <div class="mobile-modal-backdrop"></div>
-    <div class="mobile-modal">
-      <div class="mobile-modal-body">
-        <div lang="zh-Hans">射手影音 SPlayer 目前仅提供桌面版<br>可电脑访问 <strong>beta.splayer.org</strong> 下载</div>
-        <div lang="zh-Hant">射手影音 SPlayer 目前僅提供桌面版<br>可電腦訪問 <strong>beta.splayer.org</strong> 下載</div>
-        <div lang="en">SPlayer is available for desktop version for now. Please visit <strong>beta.splayer.org</strong>
-          on your computer and download</div>
-      </div>
-      <div class="mobile-modal-footer">
-        <div lang="zh-Hans">我知道了</div>
-        <div lang="zh-Hant">我知道了</div>
-        <div lang="en">Okay, I got it</div>
-      </div>
-    </div>
-  </div> -->
 </body>
 
 </html>
