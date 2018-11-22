@@ -562,19 +562,19 @@
       }
     }
 
-    function showMobileAlert() {
-      var el = document.querySelector('.mobile-modal-container');
-      el.style.width = '100vw';
-      el.style.height = '100vh';
-      el.style.overflow = 'visible';
-      el.style.opacity = 1;
-      el.querySelector('.mobile-modal-footer').addEventListener('click', function() {
-        el.style.width = '0';
-        el.style.height = '0';
-        el.style.overflow = 'hidden';
-        el.style.opacity = 0;
-      });
-    }
+    // function showMobileAlert() {
+    //   var el = document.querySelector('.mobile-modal-container');
+    //   el.style.width = '100vw';
+    //   el.style.height = '100vh';
+    //   el.style.overflow = 'visible';
+    //   el.style.opacity = 1;
+    //   el.querySelector('.mobile-modal-footer').addEventListener('click', function() {
+    //     el.style.width = '0';
+    //     el.style.height = '0';
+    //     el.style.overflow = 'hidden';
+    //     el.style.opacity = 0;
+    //   });
+    // }
 
     var validLang = ['zh-Hans', 'zh-Hant', 'en'];
     var lang = navigator.language || navigator.userLanguage;
@@ -1110,7 +1110,7 @@
   </div>
   <div class="container-spacing-after"></div>
 
-  <div class="mobile-modal-container">
+  <!-- <div class="mobile-modal-container">
     <div class="mobile-modal-backdrop"></div>
     <div class="mobile-modal">
       <div class="mobile-modal-body">
@@ -1125,7 +1125,7 @@
         <div lang="en">Okay, I got it</div>
       </div>
     </div>
-  </div>
+  </div> -->
 </body>
 
 </html>
