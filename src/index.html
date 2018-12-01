@@ -347,7 +347,7 @@
       height: 0;
       transition: .3s ease-in-out opacity;
     }
-    .language-switcher:hover .language-droplist-container {
+    .language-switcher-active .language-droplist-container {
       opacity: 1;
       height: 4rem;
       overflow: visible;
@@ -501,6 +501,8 @@
         document.head.appendChild(hideOtherLangStyleTag);
       }
       hideOtherLangStyleTag.innerHTML = 'html [lang]:not(:lang(' + lang + ')) { display: none; }';
+
+      document.querySelector('.language-switcher').classList.remove('language-switcher-active');
     }
 
     function detectOS() {
@@ -538,10 +540,19 @@
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'UA-2468227-4');
-
+  </script>
+  <script>
     window.onload = function() {
       document.querySelector('.download-button').addEventListener('click', function() {
         gtag('event', 'download', { event_action: 'click' });
+      });
+
+      var languageSwitcher = document.querySelector('.language-switcher');
+      languageSwitcher.addEventListener('ontouchstart' in document.documentElement ? 'touchstart' : 'mouseenter', function() {
+        languageSwitcher.classList.add('language-switcher-active');
+      });
+      languageSwitcher.addEventListener('mouseleave', function() {
+        languageSwitcher.classList.remove('language-switcher-active');
       });
     }
   </script>
