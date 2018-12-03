@@ -337,6 +337,7 @@
     .language-switcher {
       position: relative;
       color: #bcbcbc;
+      outline: none;
     }
     .language-droplist-container {
       opacity: 0;
@@ -515,14 +516,9 @@
       }
     }
   
-    var validLang = ['zh-Hans', 'zh-Hant', 'en'];
     var lang = navigator.language || navigator.userLanguage;
-    if (lang === 'zh-CN' || lang === 'zh-SG') {
-      lang = 'zh-Hans';
-    } else if (lang === 'zh-TW' || lang === 'zh-HK') {
-      lang = 'zh-Hant';
-    } else if (lang.substr(0, 2) === 'zh') {
-      if (lang.indexOf('Hant') !== -1) {
+    if (lang.substr(0, 2) === 'zh') {
+      if (lang === 'zh-TW' || lang === 'zh-HK' || lang.indexOf('Hant') !== -1) {
         lang = 'zh-Hant';
       } else {
         lang = 'zh-Hans';
@@ -549,12 +545,21 @@
       });
 
       var languageSwitcher = document.querySelector('.language-switcher');
-      languageSwitcher.addEventListener('ontouchstart' in document.documentElement ? 'touchstart' : 'mouseenter', function() {
+      function addLanguageSwitcherActive() {
         languageSwitcher.classList.add('language-switcher-active');
-      });
-      languageSwitcher.addEventListener('mouseleave', function() {
+      }
+      function removeLanguageSwitcherActive() {
         languageSwitcher.classList.remove('language-switcher-active');
-      });
+      }
+      if ('ontouchstart' in document.documentElement) {
+        languageSwitcher.addEventListener('focus', addLanguageSwitcherActive);
+        languageSwitcher.addEventListener('blur', function() {
+          setTimeout(removeLanguageSwitcherActive, 200);
+        });
+      } else {
+        languageSwitcher.addEventListener('mouseenter', addLanguageSwitcherActive);
+        languageSwitcher.addEventListener('mouseleave', removeLanguageSwitcherActive);
+      }
     }
   </script>
 
@@ -1038,7 +1043,7 @@
         </div>
       </div>
 
-      <div class="inline-block language-switcher" onclick="/* fix iOS hover */">
+      <div class="inline-block language-switcher" tabindex="100">
         <span lang="zh-Hans">中文 (简体)</span>
         <span lang="zh-Hant">中文 (繁體)</span>
         <span lang="en">English</span>
