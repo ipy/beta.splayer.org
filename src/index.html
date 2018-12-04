@@ -504,7 +504,10 @@
       }
       hideOtherLangStyleTag.innerHTML = 'html [lang]:not(:lang(' + lang + ')) { display: none; }';
 
-      document.querySelector('.language-switcher').classList.remove('language-switcher-active');
+      var languageSwitcher = document.querySelector('.language-switcher');
+      if (languageSwitcher) {
+        languageSwitcher.classList.remove('language-switcher-active');
+      }
     }
 
     function detectOS() {
