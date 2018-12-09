@@ -482,9 +482,11 @@
         right: 0;
         top: 0;
         bottom: 0;
+        padding-right: 0;
       }
       .eula-content {
         max-height: 70vh;
+        padding-right: 7.2rem;
       }
     }
   </style>
@@ -554,10 +556,17 @@
       function removeLanguageSwitcherActive() {
         languageSwitcher.classList.remove('language-switcher-active');
       }
+      function findParents(el, parent) {
+        if (!el.parentNode) return false;
+        if (el.parentNode === parent) return true;
+        return findParents(el.parentNode, parent);
+      }
       if ('ontouchstart' in document.documentElement) {
-        languageSwitcher.addEventListener('focus', addLanguageSwitcherActive);
-        languageSwitcher.addEventListener('blur', function() {
-          setTimeout(removeLanguageSwitcherActive, 200);
+        languageSwitcher.addEventListener('touchstart', addLanguageSwitcherActive);
+        document.body.addEventListener('touchstart', function(evt) {
+          if (evt.target !== languageSwitcher && !findParents(evt.target, languageSwitcher)) {
+            removeLanguageSwitcherActive();
+          }
         });
       } else {
         languageSwitcher.addEventListener('mouseenter', addLanguageSwitcherActive);
@@ -579,45 +588,45 @@
     <div class="slogan" lang="zh-Hant">一個有靈魂的播放器</div>
     <div class="slogan" lang="en">to be the mediaplayer with a soul</div>
 
-    <a target="_blank" href="https://github.com/chiflix/splayerx/releases/download/4.0.0/SPlayer-4.0.0.dmg"
+    <a target="_blank" href="https://github.com/chiflix/splayerx/releases/download/4.0.1/SPlayer-4.0.1.dmg"
       class="download-button inline-block show-on-mac">
       <span lang="zh-Hans">立刻下载</span>
       <span lang="zh-Hant">立刻下載</span>
       <span lang="en">Download for macOS</span>
     </a>
-    <div class="version show-on-mac" lang="zh-Hans">v4.0.0 Beta 适用于 macOS 10.10 及以上</div>
-    <div class="version show-on-mac" lang="zh-Hant">v4.0.0 Beta 適用於 macOS 10.10 及以上</div>
-    <div class="version show-on-mac" lang="en">v4.0.0 Beta compatible with macOS 10.10 or later</div>
+    <div class="version show-on-mac" lang="zh-Hans">v4.0.1 Beta 适用于 macOS 10.10 及以上</div>
+    <div class="version show-on-mac" lang="zh-Hant">v4.0.1 Beta 適用於 macOS 10.10 及以上</div>
+    <div class="version show-on-mac" lang="en">v4.0.1 Beta compatible with macOS 10.10 or later</div>
 
-    <a target="_blank" href="https://github.com/chiflix/splayerx/releases/download/4.0.0/SPlayer-Setup-4.0.0.exe"
+    <a target="_blank" href="https://github.com/chiflix/splayerx/releases/download/4.0.1/SPlayer-Setup-4.0.1.exe"
       class="download-button inline-block show-on-win">
       <span lang="zh-Hans">立刻下载</span>
       <span lang="zh-Hant">立刻下載</span>
       <span lang="en">Download for Windows</span>
     </a>
-    <div class="version show-on-win" lang="zh-Hans">v4.0.0 Beta 适用于 Windows 7 及以上</div>
-    <div class="version show-on-win" lang="zh-Hant">v4.0.0 Beta 適用於 Windows 7 及以上</div>
-    <div class="version show-on-win" lang="en">v4.0.0 Beta compatible with Windows 7 or later</div>
+    <div class="version show-on-win" lang="zh-Hans">v4.0.1 Beta 适用于 Windows 7 及以上</div>
+    <div class="version show-on-win" lang="zh-Hant">v4.0.1 Beta 適用於 Windows 7 及以上</div>
+    <div class="version show-on-win" lang="en">v4.0.1 Beta compatible with Windows 7 or later</div>
 
     <div class="divider"></div>
 
     <div class="links">
-      <a target="_blank" href="https://github.com/chiflix/splayerx/releases/download/4.0.0/SPlayer-Setup-4.0.0.exe"
+      <a target="_blank" href="https://github.com/chiflix/splayerx/releases/download/4.0.1/SPlayer-Setup-4.0.1.exe"
         class="link inline-block show-on-mac">
         <span lang="zh-Hans">Windows 版本下载</span>
         <span lang="zh-Hant">Windows 版本下載</span>
         <span lang="en">Download for Windows</span>
       </a>
-      <a target="_blank" href="https://github.com/chiflix/splayerx/releases/download/4.0.0/SPlayer-4.0.0.dmg"
+      <a target="_blank" href="https://github.com/chiflix/splayerx/releases/download/4.0.1/SPlayer-4.0.1.dmg"
         class="link inline-block show-on-win">
         <span lang="zh-Hans">macOS 版本下载</span>
         <span lang="zh-Hant">macOS 版本下載</span>
         <span lang="en">Download for macOS</span>
       </a>
       <a target="_blank" href="https://feedback.splayer.org/" class="link inline-block">
-      <span lang="zh-Hans">意见反馈</span>
-      <span lang="zh-Hant">意見反饋</span>
-      <span lang="en">Feedback</span>
+        <span lang="zh-Hans">意见反馈</span>
+        <span lang="zh-Hant">意見反饋</span>
+        <span lang="en">Feedback</span>
       </a>
       <div class="link inline-block">
         <label for="eula-switcher" class="hover-color-primary">
@@ -713,7 +722,8 @@
               <h2>14. 隐私申明</h2>
               <p>SPlayer
                 非常重视您的隐私。因此我们制定了涵盖如何收集、使用、披露、转让以及存储您的信息的隐私政策。除了本隐私政策以外，我们还针对某些会要求使用您的个人信息的功能，在我们的产品中嵌入了数据和隐私信息。</p>
-              <p>任何时候您与 SPlayer 或 SPlayer 关联公司联系，都可能会要求您提供个人信息。SPlayer 及其关联公司可共享这些个人信息，并按本隐私政策使用这些信息。SPlayer及其关联公司还可将这些信息与其他信息结合起来，用于提供和改进我们的产品、服务、内容和广告宣传。您不是一定要提供我们要求的个人信息，但在许多情况下，如果您选择不提供，我们将无法为您提供我们的产品或服务，也无法回应您遇到的任何问题。</p>
+              <p>任何时候您与 SPlayer 或 SPlayer 关联公司联系，都可能会要求您提供个人信息。SPlayer
+                及其关联公司可共享这些个人信息，并按本隐私政策使用这些信息。SPlayer及其关联公司还可将这些信息与其他信息结合起来，用于提供和改进我们的产品、服务、内容和广告宣传。您不是一定要提供我们要求的个人信息，但在许多情况下，如果您选择不提供，我们将无法为您提供我们的产品或服务，也无法回应您遇到的任何问题。</p>
               <p>SPlayer 可随时对其用户协议加以更新。如果我们对用户协议作出重大变更，我们将在公司网站上发布经更新的用户协议。</p>
 
               <p class="text-right">日期：2018年11月15日</p>
@@ -1037,7 +1047,8 @@
               <h2>14. 隱私申明</h2>
               <p>SPlayer
                 非常重視您的隱私。因此我們制定了涵蓋如何收集、使用、披露、轉讓以及存儲您的信息的隱私政策。除了本隱私政策以外，我們還針對某些會要求使用您的個人信息的功能，在我們的產品中嵌入了數據和隱私信息。</p>
-              <p>任何時候您與 SPlayer 或 SPlayer 關聯公司聯系，都可能會要求您提供個人信息。SPlayer 及其關聯公司可共享這些個人信息，並按本隱私政策使用這些信息。SPlayer及其關聯公司還可將這些信息與其他信息結合起來，用於提供和改進我們的產品、服務、內容和廣告宣傳。您不是一定要提供我們要求的個人信息，但在許多情況下，如果您選擇不提供，我們將無法為您提供我們的產品或服務，也無法回應您遇到的任何問題。</p>
+              <p>任何時候您與 SPlayer 或 SPlayer 關聯公司聯系，都可能會要求您提供個人信息。SPlayer
+                及其關聯公司可共享這些個人信息，並按本隱私政策使用這些信息。SPlayer及其關聯公司還可將這些信息與其他信息結合起來，用於提供和改進我們的產品、服務、內容和廣告宣傳。您不是一定要提供我們要求的個人信息，但在許多情況下，如果您選擇不提供，我們將無法為您提供我們的產品或服務，也無法回應您遇到的任何問題。</p>
               <p>SPlayer 可隨時對其用戶協議加以更新。如果我們對用戶協議作出重大變更，我們將在公司網站上發布經更新的用戶協議。</p>
 
               <p class="text-right">日期：2018年11月15日</p>
@@ -1046,7 +1057,7 @@
         </div>
       </div>
 
-      <div class="inline-block language-switcher" tabindex="100">
+      <div class="inline-block language-switcher">
         <span lang="zh-Hans">中文 (简体)</span>
         <span lang="zh-Hant">中文 (繁體)</span>
         <span lang="en">English</span>
