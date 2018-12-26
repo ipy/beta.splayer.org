@@ -22,7 +22,7 @@ DOWNLOAD_URL_EXE="https://github.com/chiflix/splayerx/releases/download/$VERSION
 curl -L "$DOWNLOAD_URL_DMG" | gsutil cp - gs://splayer-releases/download/SPlayer-$VERSION.dmg
 curl -L "$DOWNLOAD_URL_EXE" | gsutil cp - gs://splayer-releases/download/SPlayer-Setup-$VERSION.exe
 
-cat $DIR/src/index.html | sed "s/{{version}}/$VERSION/g" > $DIR/dist/index.html
+cat $DIR/src/index.html | sed "s/{{version}}/$VERSION/g" | sed "s/{{date}}/$(date +%Y.%m.%d)/g" > $DIR/dist/index.html
 
 cd $DIR/dist
 git add -A
