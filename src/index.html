@@ -90,6 +90,10 @@
       display: none;
     }
 
+    .full-width {
+      width: 100%;
+    }
+
     .hover-color-primary:hover {
       color: #ff7a1c;
     }
@@ -243,7 +247,7 @@
       bottom: 0;
       width: 0;
       height: 0;
-      z-index: 1;
+      z-index: 2;
     }
     #eula-switcher:checked + .eula {
       opacity: 1;
@@ -354,12 +358,12 @@
       transform: translate(0, -50%) rotate(-38deg);
     }
 
-    .classic-switcher {
+    .droplist-trigger {
       position: relative;
       color: #bcbcbc;
       outline: none;
     }
-    .classic-droplist-container {
+    .droplist-container {
       opacity: 0;
       position: absolute;
       top: 0;
@@ -369,12 +373,12 @@
       height: 0;
       transition: .3s ease-in-out opacity;
     }
-    .classic-switcher-active .classic-droplist-container {
+    .droplist-active .droplist-container {
       opacity: 1;
       height: 4rem;
       overflow: visible;
     }
-    .classic-droplist {
+    .droplist {
       position: absolute;
       background: white;
       top: 3rem;
@@ -383,8 +387,9 @@
       box-sizing: border-box;
       padding: 0.5rem 2rem 1.5rem 2rem;
       left: -2rem;
+      z-index: 1;
     }
-    .classic-droplist::before {
+    .droplist::before {
       content: '';
       display: block;
       position: absolute;
@@ -396,59 +401,7 @@
       transform: translateX(-50%) rotate(45deg);
       box-shadow: -0.1rem -0.1rem 0.2rem 0 rgba(0, 0, 0, 0.05);
     }
-    .classic-droplist-item {
-      display: block;
-      text-align: left;
-      line-height: 2rem;
-      margin-top: 1rem;
-      color: #bcbcbc;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-    }
-
-    .language-switcher {
-      position: relative;
-      color: #bcbcbc;
-      outline: none;
-    }
-    .language-droplist-container {
-      opacity: 0;
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      overflow: hidden;
-      height: 0;
-      transition: .3s ease-in-out opacity;
-    }
-    .language-switcher-active .language-droplist-container {
-      opacity: 1;
-      height: 4rem;
-      overflow: visible;
-    }
-    .language-droplist {
-      position: absolute;
-      background: white;
-      top: 3rem;
-      box-shadow: 0 -0.1rem 1rem 0 rgba(0,0,0,0.1);
-      border-radius: 0.2rem;
-      box-sizing: border-box;
-      padding: 0.5rem 2rem 1.5rem 2rem;
-      left: -2rem;
-    }
-    .language-droplist::before {
-      content: '';
-      display: block;
-      position: absolute;
-      width: 1.13rem;
-      height: 1.13rem;
-      background: white;
-      top: -0.6rem;
-      left: 50%;
-      transform: translateX(-50%) rotate(45deg);
-      box-shadow: -0.1rem -0.1rem 0.2rem 0 rgba(0, 0, 0, 0.05);
-    }
-    .language-droplist-item {
+    .droplist-item {
       display: block;
       text-align: left;
       line-height: 2rem;
@@ -459,14 +412,14 @@
     }
 
     @media (max-height: 518px) {
-      .language-droplist-container {
+      .droplist-container {
         top: -2rem;
       }
-      .language-droplist {
+      .droplist {
         top: auto;
         bottom: 3rem;
       }
-      .language-droplist::before {
+      .droplist::before {
         top: auto;
         bottom: -0.6rem;
         transform: translateX(-50%) rotate(-135deg);
@@ -542,9 +495,13 @@
         letter-spacing: 0.1rem;
       }
       .link {
-        width: 100%;
         margin-right: 0 !important;
         margin-bottom: 3rem;
+        width: 100%;
+      }
+      .droplist {
+        left: 50%;
+        transform: translateX(-50%);
       }
       .eula-container {
         transform: none;
@@ -578,9 +535,9 @@
       }
       hideOtherLangStyleTag.innerHTML = 'html [lang]:not(:lang(' + lang + ')) { display: none; }';
 
-      var languageSwitcher = document.querySelector('.language-switcher');
+      var languageSwitcher = document.querySelector('.language-droplist');
       if (languageSwitcher) {
-        languageSwitcher.classList.remove('language-switcher-active');
+        languageSwitcher.classList.remove('droplist-active');
       }
     }
 
@@ -616,52 +573,39 @@
     gtag('config', 'UA-2468227-4');
   </script>
   <script>
-    window.onload = function() {
-      document.querySelector('.download-button').addEventListener('click', function() {
-        gtag('event', 'download', { event_action: 'click' });
-      });
-
-      var languageSwitcher = document.querySelector('.language-switcher');
-      function addLanguageSwitcherActive() {
-        languageSwitcher.classList.add('language-switcher-active');
+    function bindDroplist(element) {
+      var switcher = document.querySelector(element);
+      function addSwitcherActive() {
+        switcher.classList.add('droplist-active');
       }
-      function removeLanguageSwitcherActive() {
-        languageSwitcher.classList.remove('language-switcher-active');
+      function removeSwitcherActive() {
+        switcher.classList.remove('droplist-active');
       }
       function findParents(el, parent) {
         if (!el.parentNode) return false;
         if (el.parentNode === parent) return true;
         return findParents(el.parentNode, parent);
       }
+
       if ('ontouchstart' in document.documentElement) {
-        languageSwitcher.addEventListener('touchstart', addLanguageSwitcherActive);
+        switcher.addEventListener('touchstart', addSwitcherActive);
         document.body.addEventListener('touchstart', function(evt) {
-          if (evt.target !== languageSwitcher && !findParents(evt.target, languageSwitcher)) {
-            removeLanguageSwitcherActive();
+          if (evt.target !== switcher && !findParents(evt.target, switcher)) {
+            removeSwitcherActive();
           }
         });
       } else {
-        languageSwitcher.addEventListener('mouseenter', addLanguageSwitcherActive);
-        languageSwitcher.addEventListener('mouseleave', removeLanguageSwitcherActive);
+        switcher.addEventListener('mouseenter', addSwitcherActive);
+        switcher.addEventListener('mouseleave', removeSwitcherActive);
       }
+    }
 
-      var classicSwitcher = document.querySelector('.classic-switcher');
-      function addClassicSwitcherActive() {
-        classicSwitcher.classList.add('classic-switcher-active');
-      }
-      function removeClassicSwitcherActive() {
-        classicSwitcher.classList.remove('classic-switcher-active');
-      }
-      if ('ontouchstart' in document.documentElement) {
-        classicSwitcher.addEventListener('focus', addClassicSwitcherActive);
-        classicSwitcher.addEventListener('blur', function() {
-          setTimeout(removeClassicSwitcherActive, 200);
-        });
-      } else {
-        classicSwitcher.addEventListener('mouseenter', addClassicSwitcherActive);
-        classicSwitcher.addEventListener('mouseleave', removeClassicSwitcherActive);
-      }
-      
+    window.onload = function() {
+      document.querySelector('.download-button').addEventListener('click', function() {
+        gtag('event', 'download', { event_action: 'click' });
+      });
+      bindDroplist('.language-droplist');
+      bindDroplist('.classic-droplist');
     }
 
 
@@ -736,27 +680,27 @@
     <div class="divider"></div>
 
     <div class="links">
-      <div class="link inline-block classic-switcher">
+      <div class="link inline-block droplist-trigger classic-droplist">
         <span lang="zh-Hans">经典版本下载</span>
         <span lang="zh-Hant">經典版本下載</span>
         <span lang="en">Classic Version</span>
         <span class="arrow-down"></span>
-        <div class="classic-droplist-container">
-          <div class="classic-droplist">
-            <a href="https://bitbucket.org/Tomasen/splayerx/downloads/SPlayerX_1.1.8.zip" class="classic-droplist-item">        
+        <div class="droplist-container">
+          <div class="droplist">
+            <a href="https://bitbucket.org/Tomasen/splayerx/downloads/SPlayerX_1.1.8.zip" class="droplist-item">        
               <span>Mac 1.2.6</span>
             </a>
-            <a href="http://file.splayer.org/SPlayerSetup.exe?SPlayerSetup2437_701266.exe" class="classic-droplist-item">
+            <a href="http://file.splayer.org/SPlayerSetup.exe?SPlayerSetup2437_701266.exe" class="droplist-item">
               <span lang="zh-Hans">Windows 中文版</span>
               <span lang="zh-Hant">Windows 中文版</span>
               <span lang="en">Windows Chinese</span>
             </a>
-            <a href="http://file.splayer.org/SPlayerSetupInt.exe?SPlayerSetupInt2437_701266.exe" class="classic-droplist-item">
+            <a href="http://file.splayer.org/SPlayerSetupInt.exe?SPlayerSetupInt2437_701266.exe" class="droplist-item">
               <span lang="zh-Hans">Windows 国际版</span>
               <span lang="zh-Hant">Windows 國際版</span>
               <span lang="en">Windows International</span>
             </a>
-            <a href="http://file.splayer.org/splayer.7z?2437.7z" class="classic-droplist-item">
+            <a href="http://file.splayer.org/splayer.7z?2437.7z" class="droplist-item">
               <span lang="zh-Hans">Windows 绿色版</span>
               <span lang="zh-Hant">Windows 綠色版</span>
               <span lang="en">Windows Green</span>
@@ -1198,16 +1142,16 @@
         </div>
       </div>
 
-      <div class="inline-block language-switcher">
+      <div class="link inline-block droplist-trigger language-droplist">
         <span lang="zh-Hans">中文 (简体)</span>
         <span lang="zh-Hant">中文 (繁體)</span>
         <span lang="en">English</span>
         <span class="arrow-down"></span>
-        <div class="language-droplist-container">
-          <div class="language-droplist">
-            <a href="javascript:switchLang('zh-Hans');" class="language-droplist-item">中文 (简体)</a>
-            <a href="javascript:switchLang('zh-Hant');" class="language-droplist-item">中文 (繁體)</a>
-            <a href="javascript:switchLang('en');" class="language-droplist-item">English</a>
+        <div class="droplist-container">
+          <div class="droplist">
+            <a href="javascript:switchLang('zh-Hans');" class="droplist-item">中文 (简体)</a>
+            <a href="javascript:switchLang('zh-Hant');" class="droplist-item">中文 (繁體)</a>
+            <a href="javascript:switchLang('en');" class="droplist-item">English</a>
           </div>
         </div>
       </div>
