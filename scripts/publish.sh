@@ -13,7 +13,8 @@ if [ -z $DIR/dist ]; then exit 1; fi;
 rm -fr $DIR/dist/*
 cp -r $DIR/src/* $DIR/dist
 VERSION=`curl -is "https://github.com/chiflix/splayerx/releases/latest" | grep -E '^Location: ' | grep -oE "([0-9]+.)+[0-9]"`
-echo "The latest version is: $VERSION"
+VERSION_DATE=`curl -L "https://github.com/chiflix/splayerx/releases/latest" | grep -P '(?<=<relative-time datetime=")[^T]+' -o | sed "s/-/./g"`
+echo "The latest version is: $VERSION, published on $DATE"
 
 openssl aes-256-cbc -K $encrypted_74f063b30305_key -iv $encrypted_74f063b30305_iv -in splayer-cdn-9cc583e96c06.json.enc -out splayer-cdn-9cc583e96c06.json -d
 gcloud auth activate-service-account splayer-release-deployer@splayer-cdn.iam.gserviceaccount.com --key-file=splayer-cdn-9cc583e96c06.json
@@ -22,7 +23,7 @@ DOWNLOAD_URL_EXE="https://github.com/chiflix/splayerx/releases/download/$VERSION
 curl -L "$DOWNLOAD_URL_DMG" | gsutil cp - gs://splayer-releases/download/SPlayer-$VERSION.dmg
 curl -L "$DOWNLOAD_URL_EXE" | gsutil cp - gs://splayer-releases/download/SPlayer-Setup-$VERSION.exe
 
-cat $DIR/src/index.html | sed "s/{{version}}/$VERSION/g" | sed "s/{{date}}/$(date +%Y.%m.%d)/g" > $DIR/dist/index.html
+cat $DIR/src/index.html | sed "s/{{version}}/$VERSION/g" | sed "s/{{date}}/$VERSION_DATE/g" > $DIR/dist/index.html
 
 cd $DIR/dist
 git add -A
