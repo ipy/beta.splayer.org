@@ -334,6 +334,59 @@
       border-bottom-right-radius: 0.05rem;
       transform: translate(0, -50%) rotate(-38deg);
     }
+
+    .version-switcher {
+      position: relative;
+      color: #bcbcbc;
+      outline: none;
+    }
+    .version-droplist-container {
+      opacity: 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      overflow: hidden;
+      height: 0;
+      transition: .3s ease-in-out opacity;
+    }
+    .version-switcher-active .version-droplist-container {
+      opacity: 1;
+      height: 4rem;
+      overflow: visible;
+    }
+    .version-droplist {
+      position: absolute;
+      background: white;
+      top: 3rem;
+      box-shadow: 0 -0.1rem 1rem 0 rgba(0,0,0,0.1);
+      border-radius: 0.2rem;
+      box-sizing: border-box;
+      padding: 0.5rem 2rem 1.5rem 2rem;
+      left: -2rem;
+    }
+    .version-droplist::before {
+      content: '';
+      display: block;
+      position: absolute;
+      width: 1.13rem;
+      height: 1.13rem;
+      background: white;
+      top: -0.6rem;
+      left: 50%;
+      transform: translateX(-50%) rotate(45deg);
+      box-shadow: -0.1rem -0.1rem 0.2rem 0 rgba(0, 0, 0, 0.05);
+    }
+    .version-droplist-item {
+      display: block;
+      text-align: left;
+      line-height: 2rem;
+      margin-top: 1rem;
+      color: #bcbcbc;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
     .language-switcher {
       position: relative;
       color: #bcbcbc;
@@ -563,7 +616,28 @@
         languageSwitcher.addEventListener('mouseenter', addLanguageSwitcherActive);
         languageSwitcher.addEventListener('mouseleave', removeLanguageSwitcherActive);
       }
+
+      var versionSwitcher = document.querySelector('.version-switcher');
+      function addVersionSwitcherActive() {
+        versionSwitcher.classList.add('version-switcher-active');
+      }
+      function removeVersionSwitcherActive() {
+        versionSwitcher.classList.remove('version-switcher-active');
+      }
+      if ('ontouchstart' in document.documentElement) {
+        versionSwitcher.addEventListener('focus', addVersionSwitcherActive);
+        versionSwitcher.addEventListener('blur', function() {
+          setTimeout(removeVersionSwitcherActive, 200);
+        });
+      } else {
+        versionSwitcher.addEventListener('mouseenter', addVersionSwitcherActive);
+        versionSwitcher.addEventListener('mouseleave', removeVersionSwitcherActive);
+      }
+      
     }
+
+
+
   </script>
 
 </head>
@@ -602,7 +676,37 @@
     <div class="divider"></div>
 
     <div class="links">
-      <a target="_blank" href="https://github.com/chiflix/splayerx/releases/download/{{version}}/SPlayer-Setup-{{version}}.exe"
+      <div class="link inline-block version-switcher">
+          <span lang="zh-Hans">经典版本</span>
+          <span lang="zh-Hant">經典版本</span>
+          <span lang="en">Classic Version</span>
+          <!-- <span class="arrow-down"></span> -->
+          <div class="version-droplist-container">
+            <div class="version-droplist">
+              <a href="http://itunes.apple.com/app/splayerx/id414675434" class="version-droplist-item">        
+                <span lang="zh-Hans">Mac 1.2.6</span>
+                <span lang="zh-Hant">Mac 1.2.6</span>
+                <span lang="en">Mac 1.2.6</span>
+              </a>
+              <a href="http://file.splayer.org/SPlayerSetup.exe?SPlayerSetup2437_701266.exe" class="version-droplist-item">
+                <span lang="zh-Hans">Windows 中文版</span>
+                <span lang="zh-Hant">Windows 中文版</span>
+                <span lang="en">Windows Chinese</span>
+              </a>
+              <a href="http://file.splayer.org/SPlayerSetupInt.exe?SPlayerSetupInt2437_701266.exe" class="version-droplist-item">
+                <span lang="zh-Hans">Windows 国际版</span>
+                <span lang="zh-Hant">Windows 國際版</span>
+                <span lang="en">Windows International</span>
+              </a>
+              <a href="http://file.splayer.org/splayer.7z?2437.7z" class="version-droplist-item">
+                <span lang="zh-Hans">Windows 绿色版</span>
+                <span lang="zh-Hant">Windows 綠色版</span>
+                <span lang="en">Windows Green</span>
+              </a>
+            </div>          
+          </div>
+        </div>
+      <!-- <a target="_blank" href="https://github.com/chiflix/splayerx/releases/download/{{version}}/SPlayer-Setup-{{version}}.exe"
         class="link inline-block show-on-mac">
         <span lang="zh-Hans">Windows 版本下载</span>
         <span lang="zh-Hant">Windows 版本下載</span>
@@ -613,7 +717,7 @@
         <span lang="zh-Hans">macOS 版本下载</span>
         <span lang="zh-Hant">macOS 版本下載</span>
         <span lang="en">Download for macOS</span>
-      </a>
+      </a> -->
       <a target="_blank" href="https://feedback.splayer.org/" class="link inline-block">
       <span lang="zh-Hans">意见反馈</span>
       <span lang="zh-Hant">意見反饋</span>
@@ -1046,7 +1150,7 @@
         </div>
       </div>
 
-      <div class="inline-block language-switcher" tabindex="100">
+      <div class="inline-block language-switcher">
         <span lang="zh-Hans">中文 (简体)</span>
         <span lang="zh-Hant">中文 (繁體)</span>
         <span lang="en">English</span>
