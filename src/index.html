@@ -200,16 +200,16 @@
     }
 
     .info-download:hover {
-      /* text-decoration: underline;
-      color: #FF7A1C; */
-      display: inline-block;
+      text-decoration: underline;
+      color: #FF7A1C;
+      /* display: inline-block;
       border-bottom: 1px solid #FF7A1C;
-      line-height: 1.4;
+      line-height: 1.4; */
     }
 
     .infos {
-      margin-top: 3rem;
-      margin-bottom: 8rem;
+      margin-top: 2.9rem;
+      margin-bottom: 9rem;
       font-size: 1.3rem;
       letter-spacing: 0.05rem;
     }
@@ -384,7 +384,7 @@
       padding: 0.5rem 2rem 1.5rem 2rem;
       left: -2rem;
     }
-    .version-droplist::before {
+    .classic-droplist::before {
       content: '';
       display: block;
       position: absolute;
@@ -687,7 +687,7 @@
     </a>
 
     <div class="infos">
-      <div class="info inline-block">v{{version}}</div>
+      <div class="info inline-block">v{{version}} Beta</div>
       <span class="info inline-block">|</span>
       
       <!-- 时间需要动态更新 -->
@@ -703,14 +703,14 @@
 
 
       <span class="info inline-block">|</span>
-      <a target="_blank" href="https://github.com/chiflix/splayerx/releases/download/{{version}}/SPlayer-{{version}}.dmg"
+      <a target="_blank" href="https://github.com/chiflix/splayerx/releases/download/{{version}}/SPlayer-Setup-{{version}}.exe"
         class="info-download inline-block show-on-mac">
         <span lang="zh-Hans">下载Windows版本</span>
         <span lang="zh-Hant">下載Windows版本</span>
         <span lang="en">Download for Windows</span>
       </a>
       
-      <a target="_blank" href="https://github.com/chiflix/splayerx/releases/download/{{version}}/SPlayer-Setup-{{version}}.exe"
+      <a target="_blank" href="https://github.com/chiflix/splayerx/releases/download/{{version}}/SPlayer-{{version}}.dmg"
         class="info-download inline-block show-on-win">
         <span lang="zh-Hans">下载macOS版本</span>
         <span lang="zh-Hant">下載macOS版本</span>
@@ -745,8 +745,8 @@
 
     <div class="links">
       <div class="link inline-block classic-switcher">
-          <span lang="zh-Hans">经典版本</span>
-          <span lang="zh-Hant">經典版本</span>
+          <span lang="zh-Hans">经典版本下载</span>
+          <span lang="zh-Hant">經典版本下載</span>
           <span lang="en">Classic Version</span>
           <!-- <span class="arrow-down"></span> -->
           <div class="classic-droplist-container">
