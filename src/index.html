@@ -185,18 +185,37 @@
       transform: translate(-50%, 1rem);
     }
 
-    .version {
+    /* .version {
       font-size: 1.2rem;
       line-height: 1.7rem;
       margin-bottom: 8rem;
       letter-spacing: 0.1rem;
-    }
+    } */
 
     .divider {
       margin: 0 auto;
       height: 0.1rem;
       width: 68rem;
       background: radial-gradient(#c0c8c9, 50%, transparent 80%);
+    }
+
+    .info-download:hover {
+      /* text-decoration: underline;
+      color: #FF7A1C; */
+      display: inline-block;
+      border-bottom: 1px solid #FF7A1C;
+      line-height: 1.4;
+    }
+
+    .infos {
+      margin-top: 3rem;
+      margin-bottom: 8rem;
+      font-size: 1.3rem;
+      letter-spacing: 0.05rem;
+    }
+
+    .info:not(:last-child) {
+      margin-right: 1rem;
     }
 
     .links {
@@ -335,12 +354,12 @@
       transform: translate(0, -50%) rotate(-38deg);
     }
 
-    .version-switcher {
+    .classic-switcher {
       position: relative;
       color: #bcbcbc;
       outline: none;
     }
-    .version-droplist-container {
+    .classic-droplist-container {
       opacity: 0;
       position: absolute;
       top: 0;
@@ -350,12 +369,12 @@
       height: 0;
       transition: .3s ease-in-out opacity;
     }
-    .version-switcher-active .version-droplist-container {
+    .classic-switcher-active .classic-droplist-container {
       opacity: 1;
       height: 4rem;
       overflow: visible;
     }
-    .version-droplist {
+    .classic-droplist {
       position: absolute;
       background: white;
       top: 3rem;
@@ -377,7 +396,7 @@
       transform: translateX(-50%) rotate(45deg);
       box-shadow: -0.1rem -0.1rem 0.2rem 0 rgba(0, 0, 0, 0.05);
     }
-    .version-droplist-item {
+    .classic-droplist-item {
       display: block;
       text-align: left;
       line-height: 2rem;
@@ -617,21 +636,21 @@
         languageSwitcher.addEventListener('mouseleave', removeLanguageSwitcherActive);
       }
 
-      var versionSwitcher = document.querySelector('.version-switcher');
-      function addVersionSwitcherActive() {
-        versionSwitcher.classList.add('version-switcher-active');
+      var classicSwitcher = document.querySelector('.classic-switcher');
+      function addClassicSwitcherActive() {
+        classicSwitcher.classList.add('classic-switcher-active');
       }
-      function removeVersionSwitcherActive() {
-        versionSwitcher.classList.remove('version-switcher-active');
+      function removeClassicSwitcherActive() {
+        classicSwitcher.classList.remove('classic-switcher-active');
       }
       if ('ontouchstart' in document.documentElement) {
-        versionSwitcher.addEventListener('focus', addVersionSwitcherActive);
-        versionSwitcher.addEventListener('blur', function() {
-          setTimeout(removeVersionSwitcherActive, 200);
+        classicSwitcher.addEventListener('focus', addClassicSwitcherActive);
+        classicSwitcher.addEventListener('blur', function() {
+          setTimeout(removeClassicSwitcherActive, 200);
         });
       } else {
-        versionSwitcher.addEventListener('mouseenter', addVersionSwitcherActive);
-        versionSwitcher.addEventListener('mouseleave', removeVersionSwitcherActive);
+        classicSwitcher.addEventListener('mouseenter', addClassicSwitcherActive);
+        classicSwitcher.addEventListener('mouseleave', removeClassicSwitcherActive);
       }
       
     }
@@ -659,46 +678,95 @@
       <span lang="zh-Hant">立刻下載</span>
       <span lang="en">Download for macOS</span>
     </a>
-    <div class="version show-on-mac" lang="zh-Hans">v{{version}} Beta 适用于 macOS 10.10 及以上</div>
-    <div class="version show-on-mac" lang="zh-Hant">v{{version}} Beta 適用於 macOS 10.10 及以上</div>
-    <div class="version show-on-mac" lang="en">v{{version}} Beta compatible with macOS 10.10 or later</div>
 
     <a target="_blank" href="https://github.com/chiflix/splayerx/releases/download/{{version}}/SPlayer-Setup-{{version}}.exe"
-      class="download-button inline-block show-on-win">
+    class="download-button inline-block show-on-win">
       <span lang="zh-Hans">立刻下载</span>
       <span lang="zh-Hant">立刻下載</span>
       <span lang="en">Download for Windows</span>
     </a>
+
+    <div class="infos">
+      <div class="info inline-block">v{{version}}</div>
+      <span class="info inline-block">|</span>
+      
+      <!-- 时间需要动态更新 -->
+      <div class="info inline-block">
+        <div class="show-on-mac" lang="zh-Hans">2018.12.25</div>
+        <div class="show-on-mac" lang="zh-Hant">2018.12.25</div>
+        <div class="show-on-mac" lang="en">12.25.2018</div>
+
+        <div class="show-on-win" lang="zh-Hans">2018.12.25</div>
+        <div class="show-on-win" lang="zh-Hant">2018.12.25</div>
+        <div class="show-on-win" lang="en">12.25.2018</div>
+      </div>
+
+
+      <span class="info inline-block">|</span>
+      <a target="_blank" href="https://github.com/chiflix/splayerx/releases/download/{{version}}/SPlayer-{{version}}.dmg"
+        class="info-download inline-block show-on-mac">
+        <span lang="zh-Hans">下载Windows版本</span>
+        <span lang="zh-Hant">下載Windows版本</span>
+        <span lang="en">Download for Windows</span>
+      </a>
+      
+      <a target="_blank" href="https://github.com/chiflix/splayerx/releases/download/{{version}}/SPlayer-Setup-{{version}}.exe"
+        class="info-download inline-block show-on-win">
+        <span lang="zh-Hans">下载macOS版本</span>
+        <span lang="zh-Hant">下載macOS版本</span>
+        <span lang="en">Download for macOS</span>
+      </a>
+      <!-- <div class="info inline-block">
+        <div class="show-on-mac" lang="zh-Hans">下载Windows版本</div>
+        <div class="show-on-mac" lang="zh-Hant">下載Windows版本</div>
+        <div class="show-on-mac" lang="en">Download for Windows</div>
+    
+        <div class="show-on-win" lang="zh-Hans">下载macOS版本</div>
+        <div class="show-on-win" lang="zh-Hant">下載macOS版本</div>
+        <div class="show-on-win" lang="en">Download for macOS</div>
+      </div> -->
+    
+    </div>
+
+
+    <!-- </div>
+
+    <div class="version show-on-mac" lang="zh-Hans">v{{version}} Beta 适用于 macOS 10.10 及以上</div>
+    <div class="version show-on-mac" lang="zh-Hant">v{{version}} Beta 適用於 macOS 10.10 及以上</div>
+    <div class="version show-on-mac" lang="en">v{{version}} Beta compatible with macOS 10.10 or later</div>
+
     <div class="version show-on-win" lang="zh-Hans">v{{version}} Beta 适用于 Windows 7 及以上</div>
     <div class="version show-on-win" lang="zh-Hant">v{{version}} Beta 適用於 Windows 7 及以上</div>
     <div class="version show-on-win" lang="en">v{{version}} Beta compatible with Windows 7 or later</div>
 
+    </div> -->
+
     <div class="divider"></div>
 
     <div class="links">
-      <div class="link inline-block version-switcher">
+      <div class="link inline-block classic-switcher">
           <span lang="zh-Hans">经典版本</span>
           <span lang="zh-Hant">經典版本</span>
           <span lang="en">Classic Version</span>
           <!-- <span class="arrow-down"></span> -->
-          <div class="version-droplist-container">
-            <div class="version-droplist">
-              <a href="http://itunes.apple.com/app/splayerx/id414675434" class="version-droplist-item">        
+          <div class="classic-droplist-container">
+            <div class="classic-droplist">
+              <a href="http://itunes.apple.com/app/splayerx/id414675434" class="classic-droplist-item">        
                 <span lang="zh-Hans">Mac 1.2.6</span>
                 <span lang="zh-Hant">Mac 1.2.6</span>
                 <span lang="en">Mac 1.2.6</span>
               </a>
-              <a href="http://file.splayer.org/SPlayerSetup.exe?SPlayerSetup2437_701266.exe" class="version-droplist-item">
+              <a href="http://file.splayer.org/SPlayerSetup.exe?SPlayerSetup2437_701266.exe" class="classic-droplist-item">
                 <span lang="zh-Hans">Windows 中文版</span>
                 <span lang="zh-Hant">Windows 中文版</span>
                 <span lang="en">Windows Chinese</span>
               </a>
-              <a href="http://file.splayer.org/SPlayerSetupInt.exe?SPlayerSetupInt2437_701266.exe" class="version-droplist-item">
+              <a href="http://file.splayer.org/SPlayerSetupInt.exe?SPlayerSetupInt2437_701266.exe" class="classic-droplist-item">
                 <span lang="zh-Hans">Windows 国际版</span>
                 <span lang="zh-Hant">Windows 國際版</span>
                 <span lang="en">Windows International</span>
               </a>
-              <a href="http://file.splayer.org/splayer.7z?2437.7z" class="version-droplist-item">
+              <a href="http://file.splayer.org/splayer.7z?2437.7z" class="classic-droplist-item">
                 <span lang="zh-Hans">Windows 绿色版</span>
                 <span lang="zh-Hant">Windows 綠色版</span>
                 <span lang="en">Windows Green</span>
