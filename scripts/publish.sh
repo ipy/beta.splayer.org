@@ -12,7 +12,7 @@ git clone --branch=gh-pages --depth=1 git@github.com:${TRAVIS_REPO_SLUG:=beta.sp
 if [ -z $DIR/dist ]; then exit 1; fi;
 rm -fr $DIR/dist/*
 cp -r $DIR/src/* $DIR/dist
-VERSION=`curl -is "https://github.com/chiflix/splayerx/releases/latest" | grep -E '^Location: ' | grep -oE "([0-9]+.)+[0-9]"`
+VERSION=`curl -is "https://github.com/chiflix/splayerx/releases/latest" | grep -E '^Location: ' | grep -oE "([0-9]+.)+[0-9]+"`
 VERSION_DATE=`curl -L "https://github.com/chiflix/splayerx/releases/latest" | grep -P '(?<=<relative-time datetime=")[^T]+' -o | sed "s/-/./g"`
 echo "The latest version is: $VERSION, published on $DATE"
 
