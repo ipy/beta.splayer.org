@@ -12,14 +12,15 @@ git clone --branch=gh-pages --depth=1 git@github.com:${TRAVIS_REPO_SLUG:=beta.sp
 if [ -z $DIR/dist ]; then exit 1; fi;
 rm -fr $DIR/dist/*
 cp -r $DIR/src/* $DIR/dist
-VERSION=`curl -is "https://github.com/chiflix/splayerx/releases/latest" | grep -E '^Location: ' | grep -oE "[^/]+-rc"`
+VERSION=`curl -is "https://github.com/chiflix/splayerx/releases/latest" | grep -E '^Location: ' | grep -oE "[0-9]+\.[0-9]+\.[0-9]+([-0-9a-zA-Z.]+)?"`
 VERSION_DATE=`curl -L "https://github.com/chiflix/splayerx/releases/latest" | grep -P '(?<=<relative-time datetime=")[^T]+' -o | sed "s/-/./g"`
-echo "The latest version is: $VERSION, published on $DATE"
+FILENAME="$(echo "$VERSION" | grep -oE "[0-9]+\.[0-9]+\.[0-9]+")"
+echo "The latest version is: $VERSION, published on $DATE, filename: $FILENAME"
 
 openssl aes-256-cbc -K $encrypted_74f063b30305_key -iv $encrypted_74f063b30305_iv -in splayer-cdn-9cc583e96c06.json.enc -out splayer-cdn-9cc583e96c06.json -d
 gcloud auth activate-service-account splayer-release-deployer@splayer-cdn.iam.gserviceaccount.com --key-file=splayer-cdn-9cc583e96c06.json
-DOWNLOAD_URL_DMG="https://github.com/chiflix/splayerx/releases/download/$VERSION/SPlayer-4.2.0.dmg"
-DOWNLOAD_URL_EXE="https://github.com/chiflix/splayerx/releases/download/$VERSION/SPlayer-Setup-4.2.0.exe"
+DOWNLOAD_URL_DMG="https://github.com/chiflix/splayerx/releases/download/$VERSION/SPlayer-$FILENAME.dmg"
+DOWNLOAD_URL_EXE="https://github.com/chiflix/splayerx/releases/download/$VERSION/SPlayer-Setup-$FILENAME.exe"
 curl -L "$DOWNLOAD_URL_DMG" | gsutil cp - gs://splayer-releases/download/SPlayer-$VERSION.dmg
 curl -L "$DOWNLOAD_URL_EXE" | gsutil cp - gs://splayer-releases/download/SPlayer-Setup-$VERSION.exe
 
