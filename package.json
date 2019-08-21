@@ -1,0 +1,25 @@
+{
+  "name": "beta.splayer.org",
+  "version": "0.0.1",
+  "description": "## To Publish ``` ./scripts/publish.sh ```",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ipy/beta.splayer.org.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ipy/beta.splayer.org/issues"
+  },
+  "homepage": "https://github.com/ipy/beta.splayer.org#readme",
+  "devDependencies": {
+    "await-stream-ready": "^1.0.1",
+    "js-yaml": "^3.13.1",
+    "request": "^2.88.0",
+    "request-promise-native": "^1.0.7"
+  }
+}

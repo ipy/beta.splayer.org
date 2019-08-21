@@ -557,3 +557,6 @@ ASALocalRun/
 .localhistory/
 
 # End of https://www.gitignore.io/api/vim,node,emacs,linux,macos,windows,visualstudio,visualstudiocode
+
+scripts/*.exe
+scripts/*.dmg
