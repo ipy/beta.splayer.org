@@ -1,5 +1,5 @@
 {
-  "name": "4.2.2",
+  "name": "4.2.2-beta.1",
   "releaseNotes": "- Added the display of multiple embedded subtitle language names\n  - Optimized the icon size of Play/Pause button and the trigger area\n  - Optimized the calculation logic of adjusting to 50% of the window size (CMD/Ctrl + 0)\n  - Fixed where welcome page would be loaded each time when opening the application\n  - Fixed where the second subtitle would automatically switch to <OFF>\n  - Fixed rare not responding issues while opening the application\n  - Fixed where progress bar would be triggered while sliding pages with Left/Right Arrow in the playlist",
   "createdAt": "2019-08-20T01:32:30Z",
   "commitHash": "2ef824f72a5528b986887adc549e52bee7291b6e",
