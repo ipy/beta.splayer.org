@@ -19,12 +19,6 @@ set -e
 rm -fr $DIR/dist/*
 cp -r $DIR/src/* $DIR/dist
 
-VERSION=`curl -is "https://github.com/chiflix/splayerx/releases/latest" | grep -E '^Location: ' | grep -oE "[0-9]+\.[0-9]+\.[0-9]+([-0-9a-zA-Z.]+)?"`
-VERSION_DATE=`curl -L "https://github.com/chiflix/splayerx/releases/latest" | grep -P '(?<=<relative-time datetime=")[^T]+' -o | sed "s/-/./g"`
-FILENAME="$(echo "$VERSION" | grep -oE "[0-9]+\.[0-9]+\.[0-9]+")"
-echo "The latest version is: $VERSION, published on $DATE, filename: $FILENAME"
-cat $DIR/src/index.html | sed "s/{{version}}/$VERSION/g" | sed "s/{{date}}/$VERSION_DATE/g" > $DIR/dist/index.html
-
 openssl aes-256-cbc -K $encrypted_74f063b30305_key -iv $encrypted_74f063b30305_iv -in splayer-cdn-9cc583e96c06.json.enc -out splayer-cdn-9cc583e96c06.json -d
 gcloud auth activate-service-account splayer-release-deployer@splayer-cdn.iam.gserviceaccount.com --key-file=splayer-cdn-9cc583e96c06.json
 
@@ -32,6 +26,6 @@ node $DIR/scripts/getUpdateInfo.js
 
 
 cd $DIR/dist
-git add -A
+git add . -A
 git commit -m "`date`"
 git push

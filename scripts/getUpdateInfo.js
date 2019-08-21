@@ -50,10 +50,12 @@ async function downloadAndVerify(release, platform) {
   const fileAsset = release.assets.find(a => a.name.toLowerCase() === json.path.toLowerCase());
   const fileName = fileAsset.name;
   const filePath = path.join(__dirname, fileName);
+  console.log(`downloading ${platform} file...`);
   await awaitWriteStream(request(fileAsset.browser_download_url).pipe(fs.createWriteStream(filePath)));
 
   const actualSha512 = await hashFile(filePath);
   assert(actualSha512 === sha512);
+  console.log(`sha512 of ${platform} file ok`);
 
   return { fileName, filePath, sha512 };
 }
@@ -69,17 +71,29 @@ async function getUpdateInfo(release) {
   };
   await Promise.all(['darwin', 'win32'].map((async (platform) => {
     const { fileName, filePath, sha512 } = await downloadAndVerify(release, platform);
+    console.log(`uploading ${platform} file...`);
     execSync(`gsutil cp ${filePath} gs://splayer-releases/download/${fileName}`, { encoding: 'utf-8' });
-    updateInfo.files[platform] = { sha512, url: `https://cdn.splayer.org/download/${fileName}` };
+    console.log(`uploaded ${platform} file`);
+    const url = `https://cdn.splayer.org/download/${fileName}`;
+    updateInfo.files[platform] = { sha512, url };
+    return { sha512, url };
   })));
   return updateInfo;
 }
 
-getLatestPrerelease()
-  .then(release => getUpdateInfo(release))
-  .then((info) => {
-    fs.mkdirSync(path.join(__dirname, '../dist/beta'));
-    fs.writeFileSync(path.join(__dirname, '../dist/beta', 'latest.json'), JSON.stringify(info));
-    process.stdout.write(JSON.stringify(info));
-  })
-  .catch(ex => process.exit(1));
+async function build() {
+  const release = await getLatestPrerelease();
+  const info = await getUpdateInfo(release);
+
+  fs.mkdirSync(path.join(__dirname, '../dist/beta'));
+  fs.writeFileSync(path.join(__dirname, '../dist/beta/latest.json'), JSON.stringify(info));
+
+  console.log('writing index.html...');
+  let indexHtml = fs.readFileSync(path.join(__dirname, '../src/index.html'));
+  indexHtml = indexHtml.replace(/{{version}}/g, info.name);
+  indexHtml = indexHtml.replace(/{{url_win32}}/g, info.files.win32.url);
+  indexHtml = indexHtml.replace(/{{url_darwin}}/g, info.files.darwin.url);
+  fs.writeFileSync(path.join(__dirname, '../dist/index.html'), indexHtml);
+}
+
+build().catch(ex => process.exit(1));
