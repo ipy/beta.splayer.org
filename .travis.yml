@@ -2,8 +2,8 @@ language: node_js
 node_js:
   - "12"
 cache:
-- directories:
-  - node_modules
+  - directories:
+    - node_modules
 git:
   depth: 1
 script:
@@ -13,8 +13,6 @@ before_install:
   - chmod 600 github_deploy_key
   - eval $(ssh-agent -s)
   - ssh-add github_deploy_key
-deploy:
-  provider: script
-  script: bash scripts/publish.sh
-  on:
-    branch: master
+install:
+  - bash scripts/publish.sh
+

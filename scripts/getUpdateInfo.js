@@ -85,15 +85,21 @@ async function build() {
   const release = await getLatestPrerelease();
   const info = await getUpdateInfo(release);
 
+  console.log('writing beta/latest.json...');
   fs.mkdirSync(path.join(__dirname, '../dist/beta'));
   fs.writeFileSync(path.join(__dirname, '../dist/beta/latest.json'), JSON.stringify(info));
+  console.log('written beta/latest.json...');
 
   console.log('writing index.html...');
-  let indexHtml = fs.readFileSync(path.join(__dirname, '../src/index.html'));
+  let indexHtml = fs.readFileSync(path.join(__dirname, '../src/index.html'), 'utf8');
   indexHtml = indexHtml.replace(/{{version}}/g, info.name);
   indexHtml = indexHtml.replace(/{{url_win32}}/g, info.files.win32.url);
   indexHtml = indexHtml.replace(/{{url_darwin}}/g, info.files.darwin.url);
   fs.writeFileSync(path.join(__dirname, '../dist/index.html'), indexHtml);
+  console.log('written index.html...');
 }
 
-build().catch(ex => process.exit(1));
+build().catch((ex) => {
+  console.error(ex);
+  process.exit(1);
+});
