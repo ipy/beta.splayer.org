@@ -20,9 +20,9 @@ async function get(url) {
   });
 }
 
-async function getLatestPrerelease() {
+async function getLatestBetaRelease() {
   const allReleases = await get(GH_RELEASES);
-  return allReleases.find(r => r.prerelease);
+  return allReleases.find(r => r.name.indexOf('beta') > -1) || allReleases.find(r => r.prerelease);
 }
 
 async function hashFile(file, algorithm = 'sha512', encoding = 'base64', options) {
@@ -82,7 +82,7 @@ async function getUpdateInfo(release) {
 }
 
 async function build() {
-  const release = await getLatestPrerelease();
+  const release = await getLatestBetaRelease();
   const info = await getUpdateInfo(release);
 
   console.log('writing beta/latest.json...');
