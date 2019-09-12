@@ -66,7 +66,7 @@ async function getUpdateInfo(release) {
     releaseNotes: release.body,
     createdAt: release.created_at,
     commitHash: release.target_commitish,
-    landingPage: 'https://github.com/chiflix/splayerx/releases',
+    landingPage: `https://splayer.org?updated.html?version=${release.name}`,
     files: {},
   };
   await Promise.all(['darwin', 'win32'].map((async (platform) => {
