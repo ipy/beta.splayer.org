@@ -22,7 +22,10 @@ async function get(url) {
 
 async function getLatestBetaRelease() {
   const allReleases = await get(GH_RELEASES);
-  return allReleases.find(r => !r.prerelease && r.name.indexOf('beta') > -1);
+  return allReleases
+    .filter(r => !r.prerelease && r.name.indexOf('beta') > -1)
+    .sort((a, b) => a.name < b.name ? 1 : -1)
+    [0];
 }
 
 async function hashFile(file, algorithm = 'sha512', encoding = 'base64', options) {
