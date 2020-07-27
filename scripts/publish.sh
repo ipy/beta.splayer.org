@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
   READLINK=greadlink
@@ -26,6 +27,4 @@ node $DIR/scripts/getUpdateInfo.js
 
 
 cd $DIR/dist
-git add . -A
-git commit -m "`date`"
-git push
+git diff --quiet && git diff --staged --quiet || (git add . -A && git commit -m "`date`" && git push)

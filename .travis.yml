@@ -15,4 +15,4 @@ before_install:
   - ssh-add github_deploy_key
 install:
   - bash scripts/publish.sh
-
+  - bash scripts/docker.sh
