@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
   READLINK=greadlink
@@ -25,6 +24,10 @@ gcloud auth activate-service-account splayer-release-deployer@splayer-cdn.iam.gs
 
 node $DIR/scripts/getUpdateInfo.js
 
-
+set +e
 cd $DIR/dist
-git diff --quiet && git diff --staged --quiet || (git add . -A && git commit -m "`date`" && git push)
+if (git diff --quiet && git diff --staged --quiet); then
+git add . -A
+git commit -m "`date`"
+git push
+fi
